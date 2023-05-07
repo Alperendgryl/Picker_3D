@@ -12,6 +12,8 @@ TagManager:
   - Pool
   - Platform
   - Obstacle
+  - Level End
+  - Bonus Item
   layers:
   - Default
   - TransparentFX
