@@ -11,25 +11,18 @@ public class LevelEditorManager : MonoBehaviour
     private GameObject prefabToInstantiate;
     private GameObject levelParent;
 
+    private GameObject selectedObject;
+    private bool isObjectSelected;
+
     private void Start()
     {
         levelParent = GameObject.FindGameObjectWithTag("Level");
         SetupLevel();
-
-        // Subscribe to events
-        InputManager.OnLeftClick += HandleLeftClick;
-        InputManager.OnRightClick += HandleRightClick;
-        LevelManager.OnLevelSelected += LoadLevel;
-        LevelManager.OnLevelSelected += level => currentLevel = level;
+        SubscribeEvents();
     }
-
     private void OnDestroy()
     {
-        // Unsubscribe from events
-        InputManager.OnLeftClick -= HandleLeftClick;
-        InputManager.OnRightClick -= HandleRightClick;
-        LevelManager.OnLevelSelected -= LoadLevel;
-        LevelManager.OnLevelSelected -= level => currentLevel = level;
+        UnsubscribeEvents();
     }
 
     private void SetupLevel()
@@ -54,7 +47,12 @@ public class LevelEditorManager : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
-                    Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, levelParent.transform);
+                    GameObject obj = Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, levelParent.transform);
+                    if (isObjectSelected)
+                    {
+                        selectedObject = obj;
+                        isObjectSelected = false;
+                    }
                 }
             }
         }
@@ -63,6 +61,11 @@ public class LevelEditorManager : MonoBehaviour
     private void HandleRightClick()
     {
         DeleteObjectAtMousePosition();
+    }
+
+    private void HandleMiddleClick()
+    {
+        RotateObjectAtMousePosition();
     }
 
     public Vector3 GetWorldMousePosition(string tag)
@@ -98,12 +101,41 @@ public class LevelEditorManager : MonoBehaviour
         prefabToInstantiate = itemPrefabs[index];
     }
 
+    //private GameObject lastClickedObject;
+    //private void DeleteObjectAtMousePosition()
+    //{
+    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //    if (Physics.Raycast(ray, out RaycastHit hit))
+    //    {
+    //        if (!hit.transform.CompareTag("Plane"))
+    //        {
+    //            if (hit.transform.gameObject == lastClickedObject) // If the same object is clicked twice, delete it
+    //            {
+    //                Destroy(hit.transform.gameObject);
+    //            }
+    //            else
+    //            {
+    //                lastClickedObject = hit.transform.gameObject; // Set the last clicked object to the new object
+    //            }
+    //        }
+    //    }
+    //}
+
     private void DeleteObjectAtMousePosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if (!hit.transform.CompareTag("Plane")) Destroy(hit.transform.gameObject);
+        }
+    }
+
+    private void RotateObjectAtMousePosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            if (!hit.transform.CompareTag("Plane")) hit.transform.Rotate(Vector3.up, 45f); ;
         }
     }
 
@@ -135,5 +167,23 @@ public class LevelEditorManager : MonoBehaviour
     private bool IsMouseOverUI()// Check if mouse is over UI
     {
         return EventSystem.current.IsPointerOverGameObject();
+    }
+    private void SubscribeEvents()
+    {
+        // Subscribe to events
+        InputManager.OnLeftClick += HandleLeftClick;
+        InputManager.OnRightClick += HandleRightClick;
+        InputManager.OnMiddleClick += HandleMiddleClick;
+        LevelManager.OnLevelSelected += LoadLevel;
+        LevelManager.OnLevelSelected += level => currentLevel = level;
+    }
+    private void UnsubscribeEvents()
+    {
+        // Unsubscribe from events
+        InputManager.OnLeftClick -= HandleLeftClick;
+        InputManager.OnRightClick -= HandleRightClick;
+        InputManager.OnMiddleClick -= HandleMiddleClick;
+        LevelManager.OnLevelSelected -= LoadLevel;
+        LevelManager.OnLevelSelected -= level => currentLevel = level;
     }
 }

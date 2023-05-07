@@ -5,6 +5,7 @@ public class InputManager : MonoBehaviour
 {
     public static event Action<Vector3> OnLeftClick;
     public static event Action OnRightClick;
+    public static event Action OnMiddleClick;
 
     private void Update()
     {
@@ -15,6 +16,10 @@ public class InputManager : MonoBehaviour
         else if (Input.GetMouseButtonDown(1))
         {
             OnRightClick?.Invoke();
+        }
+        else if(Input.GetMouseButtonDown(2))
+        {
+            OnMiddleClick?.Invoke();
         }
     }
 }
