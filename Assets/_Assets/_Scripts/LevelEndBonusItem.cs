@@ -11,7 +11,6 @@ public class LevelEndBonusItem : MonoBehaviour
         int numMultiplier = Random.Range(1, 101);
         _itemNumber = numMultiplier * 10;
 
-        BonusNumText = transform.Find("BonusNumber").gameObject;
         BonusNumText.GetComponent<TMP_Text>().text = _itemNumber.ToString();
     }
 }

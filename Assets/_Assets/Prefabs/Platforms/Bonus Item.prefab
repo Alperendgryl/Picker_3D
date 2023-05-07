@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6200512367306749715}
   - component: {fileID: 8061405746230928564}
   m_Layer: 0
-  m_Name: BonusItem
+  m_Name: Bonus Item
   m_TagString: Bonus Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1520284009169945867}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 15, y: 0.15, z: 5}
+  m_LocalScale: {x: 10, y: 0.1, z: 3.3333333}
   m_Children:
   - {fileID: 2004413755305074795}
   m_Father: {fileID: 0}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a6e51d5edf7c77949b6854dba8877976, type: 2}
+  - {fileID: 2100000, guid: b35293e7dc0080942967a3360158e9d7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemNumber: 0
-  BonusNumText: {fileID: 0}
+  BonusNumText: {fileID: 4512804384723876784}
 --- !u!1 &4512804384723876784
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 6064761167157743197}
   - component: {fileID: 3960115471792604240}
   m_Layer: 0
-  m_Name: BonusNumber
+  m_Name: Bonus Number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,8 +146,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.1, y: -0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_AnchoredPosition: {x: -2.1, y: 0.1}
+  m_SizeDelta: {x: 15, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &6064761167157743197
 MeshRenderer:
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 650
+  m_text: 100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eb77505a09ec6a744b1b776822a00417, type: 2}
   m_sharedMaterial: {fileID: 2524076245017955669, guid: eb77505a09ec6a744b1b776822a00417, type: 2}
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -0.49335918, y: 0.7332848, z: 0.5025114, w: -0.36991617}
+  m_margin: {x: -0.49335918, y: 0.7332848, z: 0.5025114, w: 0.1101723}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
