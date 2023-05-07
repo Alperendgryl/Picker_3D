@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4735048514472283917}
   - component: {fileID: 5526580575992613420}
   - component: {fileID: 5004778448375205951}
-  - component: {fileID: 7358345192279329256}
+  - component: {fileID: 6419174722728738823}
   m_Layer: 0
-  m_Name: Sphere Multiplier
+  m_Name: Sphere Collectable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 593423204259734032}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a6e51d5edf7c77949b6854dba8877976, type: 2}
+  - {fileID: 2100000, guid: 07ac3b4177ce93b45aedd3e6650348b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,7 +97,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7358345192279329256
+--- !u!54 &6419174722728738823
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

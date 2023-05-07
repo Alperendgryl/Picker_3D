@@ -15,6 +15,11 @@ public class Oscillator : MonoBehaviour
 
     void Update()
     {
+        StartOscillator();
+    }
+
+    private void StartOscillator()
+    {
         if (period <= Mathf.Epsilon) { return; }
 
         float cylces = Time.time / period;

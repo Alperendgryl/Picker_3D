@@ -9,6 +9,9 @@ TagManager:
   - Plane
   - Destroyer
   - Multiplier
+  - Pool
+  - Platform
+  - Obstacle
   layers:
   - Default
   - TransparentFX

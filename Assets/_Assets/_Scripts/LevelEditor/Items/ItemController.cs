@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ItemButtonController : MonoBehaviour
+public class ItemController : MonoBehaviour
 {
     private int index;
     private LevelEditorManager editorManager;

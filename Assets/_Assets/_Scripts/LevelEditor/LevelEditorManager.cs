@@ -10,9 +10,16 @@ public class LevelEditorManager : MonoBehaviour
     private GameObject prefabToInstantiate;
     private GameObject levelParent;
 
+    // Setup level in Start method
     private void Start()
     {
         levelParent = GameObject.FindGameObjectWithTag("Level");
+        SetupLevel();
+    }
+
+    // Instantiate platform objects in SetupLevel method
+    private void SetupLevel()
+    {
         Vector3 spawnPosition = Vector3.zero;
 
         for (int i = 0; i < platformCount; i++)
@@ -22,22 +29,22 @@ public class LevelEditorManager : MonoBehaviour
         }
     }
 
+    // Handle input in Update method
     private void Update()
+    {
+        HandleInput();
+    }
+
+    // Handle mouse input and object instantiation
+    private void HandleInput()
     {
         if (Input.GetMouseButtonDown(0) && prefabToInstantiate != null && !IsMouseOverUI())
         {
-            Vector3 worldPos = GetWorldMousePosition() + Vector3.up / 2;
+            Vector3 worldPos = GetWorldMousePosition(prefabToInstantiate.tag);
 
             if (worldPos != Vector3.zero)
             {
-                if (levelParent != null)
-                {
-                    Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, levelParent.transform);
-                }
-                else
-                {
-                    Debug.LogError("No GameObject found with the 'Platform' tag");
-                }
+                Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, levelParent.transform);
             }
         }
         else if (Input.GetMouseButtonDown(1))
@@ -46,32 +53,60 @@ public class LevelEditorManager : MonoBehaviour
         }
     }
 
-    public Vector3 GetWorldMousePosition()
+    // Get the world mouse position based on prefab tag
+    public Vector3 GetWorldMousePosition(string tag)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (!hit.transform.tag.Equals("Plane")) // Cannot add to plane object (Only on platform)
-            return hit.point;
+            Vector3 position = hit.point;
+
+            if (tag == "Pool" || tag == "Platform" || tag == "Obstacle")
+            {
+                position.y = 0f;
+                position.x = 0f;
+                position.z = Mathf.Round(position.z / 10f) * 10f; // round Z position to nearest multiple of 10
+            }
+            else
+            {
+                position.y = 0.5f;
+            }
+
+            return position;
         }
         return Vector3.zero;
     }
 
+    // Set prefab to instantiate based on index
     public void SetPrefabToInstantiate(int index)
     {
         prefabToInstantiate = itemPrefabs[index];
     }
 
+    // Delete object at mouse position
     private void DeleteObjectAtMousePosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.transform.tag.Equals("Plane")) return; // Cannot delete the plane object (Only objects on platform)
+            if (hit.transform.CompareTag("Plane")) return; // Do not delete the plane object
             Destroy(hit.transform.gameObject);
         }
     }
 
+    // Reset level by deleting all child objects except platform
+    public void ResetLevel(GameObject level)
+    {
+        int childCount = level.transform.childCount;
+        for (int i = childCount - 1; i >= 0; i--)
+        {
+            Transform child = level.transform.GetChild(i);
+            if (child.CompareTag("Platform")) continue;
+            Destroy(child.gameObject);
+        }
+    }
+
+    // Check if mouse is over UI
     private bool IsMouseOverUI()
     {
         return EventSystem.current.IsPointerOverGameObject();
