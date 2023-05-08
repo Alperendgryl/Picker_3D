@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelHandler : MonoBehaviour, IDataPersistence
+public class LevelHandler : MonoBehaviour, ILevelController
 {
     [SerializeField] private int platformCount;
     [SerializeField] public GameObject[] itemPrefabs;
@@ -16,10 +16,11 @@ public class LevelHandler : MonoBehaviour, IDataPersistence
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private Transform content;
 
+    private string selectedLevelFile;
     private void Start()
     {
-        GetLevelNames();
         SetupLevel();
+        GetLevelNames();
     }
 
     public void SetupLevel()
@@ -46,11 +47,11 @@ public class LevelHandler : MonoBehaviour, IDataPersistence
 
             // Set the button text to the saved level name
             TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = "Level: " + Path.GetFileNameWithoutExtension(levelFile);
+            buttonText.text = Path.GetFileNameWithoutExtension(levelFile);
 
             // Add a click listener to set the levelFile when the button is clicked
             Button buttonComponent = newButton.GetComponent<Button>();
-            buttonComponent.onClick.AddListener(() => SetSelectedLevel(levelFile));
+            buttonComponent.onClick.AddListener(() => SetSelectedLevel(newButton));
         }
     }
 
@@ -63,13 +64,19 @@ public class LevelHandler : MonoBehaviour, IDataPersistence
         }
 
         // Read the JSON string from the selected level file
-        string json = File.ReadAllText(selectedLevelFile);
+        string json = File.ReadAllText(Path.Combine(Application.persistentDataPath, selectedLevelFile + ".json"));
 
         // Deserialize the JSON string to a GameData instance
         GameData gameData = JsonUtility.FromJson<GameData>(json);
 
         // Reset the level
         ResetLevel();
+
+        // Delete the active level GameObject
+        Destroy(level);
+
+        // Instantiate a new level GameObject
+        level = new GameObject("Level");
 
         // Instantiate the saved level design
         for (int i = 0; i < gameData.levelDesignChildren.Count; i++)
@@ -134,9 +141,10 @@ public class LevelHandler : MonoBehaviour, IDataPersistence
         }
     }
 
-    private string selectedLevelFile;
-    public void SetSelectedLevel(string levelFile)
+    public void SetSelectedLevel(GameObject button)
     {
-        selectedLevelFile = levelFile;
+        selectedLevelFile = button.transform.GetChild(0).GetComponent<TMP_Text>().text.Replace("Level: ", "");
+        Debug.Log("Selected File Name : " + selectedLevelFile);
     }
+
 }
