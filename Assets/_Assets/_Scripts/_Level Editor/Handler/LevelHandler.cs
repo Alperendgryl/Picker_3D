@@ -172,7 +172,7 @@ public class LevelHandler : MonoBehaviour, ILevelHandler
     {
         selectedLevelFile = button.transform.GetChild(0).GetComponent<TMP_Text>().text.Replace("Level: ", "");
         currentLevelTXT.text = selectedLevelFile;
-        Debug.Log("Selected File Name : " + selectedLevelFile);
+        Debug.Log("Active Level : " + selectedLevelFile);
         LoadLevel();
     }
 }
