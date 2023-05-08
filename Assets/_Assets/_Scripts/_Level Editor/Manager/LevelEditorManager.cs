@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,6 +9,11 @@ public class LevelEditorManager : MonoBehaviour
     private LevelHandler levelHandler;
     private InputHandler levelInteraction;
     private IMouseInput inputManager;
+    public GameObject Level
+    {
+        get { return levelInteraction.level; }
+        set { levelInteraction.level = value; }
+    }
 
     public IMouseInput InputManager // Property injection
     {
@@ -41,10 +47,18 @@ public class LevelEditorManager : MonoBehaviour
 
             if (worldPos != Vector3.zero)
             {
-                Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, levelInteraction.level.transform);
+                Debug.Log("Instantiating: " + prefabToInstantiate.name);
+                GameObject instantiatedObject = Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, levelInteraction.level.transform);
+                if (instantiatedObject == null)
+                {
+                    Debug.LogError("Failed to instantiate prefab: " + prefabToInstantiate.name);
+                    return;
+                }
+                Debug.Log("Instantiated: " + instantiatedObject.name);
             }
         }
     }
+
 
     private void HandleRightClick()
     {
@@ -63,6 +77,19 @@ public class LevelEditorManager : MonoBehaviour
         prefabToInstantiate = levelHandler.itemPrefabs[index];
     }
 
+    private void UpdatePrefabToInstantiate()
+    {
+        if (prefabToInstantiate != null)
+        {
+            int prefabIndex = Array.FindIndex(levelHandler.itemPrefabs, prefab => prefab.name == prefabToInstantiate.name);
+            if (prefabIndex >= 0)
+            {
+                prefabToInstantiate = levelHandler.itemPrefabs[prefabIndex];
+            }
+        }
+        Level = levelHandler.level; // Update the level reference
+    }
+
     private bool IsMouseOverUI()
     {
         return EventSystem.current.IsPointerOverGameObject();
@@ -73,6 +100,7 @@ public class LevelEditorManager : MonoBehaviour
         inputManager.OnLeftClick += HandleLeftClick;
         inputManager.OnRightClick += HandleRightClick;
         inputManager.OnMiddleClick += HandleMiddleClick;
+        levelHandler.OnLevelLoaded += UpdatePrefabToInstantiate;
     }
 
     private void UnsubscribeEvents()
@@ -80,5 +108,6 @@ public class LevelEditorManager : MonoBehaviour
         inputManager.OnLeftClick -= HandleLeftClick;
         inputManager.OnRightClick -= HandleRightClick;
         inputManager.OnMiddleClick -= HandleMiddleClick;
+        levelHandler.OnLevelLoaded -= UpdatePrefabToInstantiate;
     }
 }

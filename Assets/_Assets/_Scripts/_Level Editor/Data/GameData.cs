@@ -4,8 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
-    public GameObject levelDesign;
-    public List<ObjectData> levelDesignChildren;
+    public List<ObjectData> levelChildren;
 
     [System.Serializable]
     public class ObjectData
@@ -13,5 +12,12 @@ public class GameData
         public int prefabIndex;
         public Vector3 position;
         public Quaternion rotation;
+
+        public ObjectData(int prefabIndex, Vector3 position, Quaternion rotation)
+        {
+            this.prefabIndex = prefabIndex;
+            this.position = position;
+            this.rotation = rotation;
+        }
     }
 }

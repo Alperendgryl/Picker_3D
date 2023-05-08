@@ -2,7 +2,6 @@ using UnityEditor;
 using UnityEngine;
 using System.IO;
 
-
 public class LevelDesignEditor : EditorWindow
 {
     private GameObject prefab;

@@ -96,3 +96,5 @@ MonoBehaviour:
   - {fileID: 723134651251598876, guid: 80e0e54a232f3da4dbec387ebc6b3de3, type: 3}
   platform: {fileID: 7692082992465189794, guid: 0a72ed396af3c9f468b17e5bd311b646, type: 3}
   level: {fileID: 0}
+  levelsButtonPrefab: {fileID: 6087141627008547438, guid: 7dfe9d0af461dc74688862e2f1e82a40, type: 3}
+  content: {fileID: 0}

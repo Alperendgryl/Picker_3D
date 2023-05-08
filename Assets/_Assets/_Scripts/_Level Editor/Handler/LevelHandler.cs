@@ -12,16 +12,108 @@ public class LevelHandler : MonoBehaviour, ILevelController
 
     [Header("GameObjects")]
     [SerializeField] private GameObject platform;
-    [SerializeField] private GameObject level;
-    [SerializeField] private GameObject buttonPrefab;
+    [SerializeField] public GameObject level;
+    [SerializeField] private GameObject levelsButtonPrefab;
     [SerializeField] private Transform content;
+    [SerializeField] private TMP_Text currentLevelTXT;
 
+    public event Action OnLevelLoaded;
     private string selectedLevelFile;
+    private void Update()
+    {
+
+    }
     private void Start()
     {
         SetupLevel();
         GetLevelNames();
     }
+
+    public void SaveLevel()
+    {
+        int nextLevelNumber = 1;
+        while (File.Exists(Path.Combine(Application.persistentDataPath, "Level" + nextLevelNumber + ".json")))
+        {
+            nextLevelNumber++;
+        }
+
+        string fileName = "Level" + nextLevelNumber + ".json";
+        SaveLevelToFile(fileName);
+
+        // Update the selectedLevelFile and create a new button for it
+        selectedLevelFile = "Level" + nextLevelNumber;
+        GameObject newButton = Instantiate(levelsButtonPrefab, content);
+
+        // Set the button text to the saved level name
+        TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
+        buttonText.text = Path.GetFileNameWithoutExtension(Application.persistentDataPath + "/" + fileName);
+
+        // Add a click listener to set the levelFile when the button is clicked
+        Button savedLevels = newButton.GetComponent<Button>();
+        savedLevels.onClick.AddListener(() => SetSelectedLevel(newButton));
+    }
+
+    public void UpdateLevel()
+    {
+        if (string.IsNullOrEmpty(selectedLevelFile))
+        {
+            Debug.LogWarning("No level file selected to update");
+            return;
+        }
+
+        string fileName = selectedLevelFile + ".json";
+        SaveLevelToFile(fileName);
+    }
+
+    public void ResetLevel()
+    {
+        foreach (Transform child in level.transform)
+        {
+            if (child.CompareTag("Platform")) continue;
+            Destroy(child.gameObject);
+        }
+    }
+
+    public void SaveLevelAsPrefab()
+    {
+        string levelsFolderPath = "Assets/_Assets/Prefabs/Levels/";
+
+        // Check if the folder exists and create it if not
+        if (!Directory.Exists(levelsFolderPath))
+        {
+            Directory.CreateDirectory(levelsFolderPath);
+        }
+
+        // Create a new instance of the RuntimePrefabData class
+        RuntimePrefabData runtimePrefabData = new RuntimePrefabData();
+        runtimePrefabData.name = level.name;
+        runtimePrefabData.children = new List<GameData.ObjectData>();
+
+        // Get all the children of the "level" GameObject and add them to the children list
+        Transform levelTransform = level.transform;
+        foreach (Transform child in levelTransform)
+        {
+            int prefabIndex = Array.FindIndex(itemPrefabs, prefab => prefab.name == child.gameObject.name.Replace("(Clone)", "").Trim());
+            if (prefabIndex >= 0)
+            {
+                GameData.ObjectData objectData = new GameData.ObjectData(prefabIndex, child.position, child.rotation);
+                runtimePrefabData.children.Add(objectData);
+            }
+            else
+            {
+                Debug.LogWarning("Prefab not found for: " + child.gameObject.name);
+            }
+        }
+
+        // Serialize the RuntimePrefabData instance to a JSON string
+        string json = JsonUtility.ToJson(runtimePrefabData);
+        Debug.Log("Saved JSON: " + json);
+
+        // Save the JSON string to a file with the provided file name
+        string fileName = level.name + ".json";
+        File.WriteAllText(levelsFolderPath + fileName, json);
+    }
+
 
     public void SetupLevel()
     {
@@ -43,15 +135,15 @@ public class LevelHandler : MonoBehaviour, ILevelController
         foreach (string levelFile in levelFiles)
         {
             // Instantiate the button prefab as a child of the content GameObject
-            GameObject newButton = Instantiate(buttonPrefab, content);
+            GameObject newButton = Instantiate(levelsButtonPrefab, content);
 
             // Set the button text to the saved level name
             TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = Path.GetFileNameWithoutExtension(levelFile);
 
             // Add a click listener to set the levelFile when the button is clicked
-            Button buttonComponent = newButton.GetComponent<Button>();
-            buttonComponent.onClick.AddListener(() => SetSelectedLevel(newButton));
+            Button savedLevels = newButton.GetComponent<Button>();
+            savedLevels.onClick.AddListener(() => SetSelectedLevel(newButton));
         }
     }
 
@@ -72,79 +164,59 @@ public class LevelHandler : MonoBehaviour, ILevelController
         // Reset the level
         ResetLevel();
 
-        // Delete the active level GameObject
-        Destroy(level);
-
         // Instantiate a new level GameObject
-        level = new GameObject("Level");
+        GameObject newLevel = new GameObject("Level");
+        newLevel.tag = "Level";
 
         // Instantiate the saved level design
-        for (int i = 0; i < gameData.levelDesignChildren.Count; i++)
+        for (int i = 0; i < gameData.levelChildren.Count; i++)
         {
-            GameData.ObjectData objectData = gameData.levelDesignChildren[i];
-            Instantiate(itemPrefabs[objectData.prefabIndex], objectData.position, objectData.rotation, level.transform);
+            GameData.ObjectData objectData = gameData.levelChildren[i];
+            Instantiate(itemPrefabs[objectData.prefabIndex], objectData.position, objectData.rotation, newLevel.transform);
         }
+
+        // Delete the active level GameObject and replace it with the new one
+        Destroy(level);
+        level = newLevel;
+        // Invoke the event to notify subscribers that the level has been loaded
+        OnLevelLoaded?.Invoke();
     }
 
-
-    private int savedLevelCount = 0;
-    public void SaveLevel()
+    private void SaveLevelToFile(string fileName)
     {
-        // Increment the savedLevelCount by one
-        savedLevelCount++;
-
         // Create a new instance of the GameData class
         GameData gameData = new GameData();
 
-        // Set the levelDesign field to the "level" GameObject
-        gameData.levelDesign = GameObject.FindGameObjectWithTag("Level");
-
-        // Get all the children of the "level" GameObject and add them to the levelDesignChildren list
-        Transform levelTransform = gameData.levelDesign.transform;
-        gameData.levelDesignChildren = new List<GameData.ObjectData>();
+        // Get all the children of the "level" GameObject and add them to the levelChildren list
+        Transform levelTransform = level.transform;
+        gameData.levelChildren = new List<GameData.ObjectData>();
         foreach (Transform child in levelTransform)
         {
-            int prefabIndex = Array.FindIndex(itemPrefabs, prefab => prefab.name == child.gameObject.name);
+            int prefabIndex = Array.FindIndex(itemPrefabs, prefab => prefab.name == child.gameObject.name.Replace("(Clone)", "").Trim());
             if (prefabIndex >= 0)
             {
-                GameData.ObjectData objectData = new GameData.ObjectData
-                {
-                    prefabIndex = prefabIndex,
-                    position = child.position,
-                    rotation = child.rotation
-                };
-                gameData.levelDesignChildren.Add(objectData);
+                GameData.ObjectData objectData = new GameData.ObjectData(prefabIndex, child.position, child.rotation);
+                gameData.levelChildren.Add(objectData);
+            }
+            else
+            {
+                Debug.LogWarning("Prefab not found for: " + child.gameObject.name);
             }
         }
 
         // Serialize the GameData instance to a JSON string
         string json = JsonUtility.ToJson(gameData);
+        Debug.Log("Saved JSON: " + json);
 
-        // Save the JSON string to a file with the incremented level count in the file name
-        string fileName = "Level" + savedLevelCount + ".json";
+        // Save the JSON string to a file with the provided file name
         File.WriteAllText(Application.persistentDataPath + "/" + fileName, json);
-
-        // Instantiate the button prefab as a child of the content GameObject
-        GameObject newButton = Instantiate(buttonPrefab, content);
-
-        // Set the button text to the saved level name
-        TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
-        buttonText.text = Path.GetFileNameWithoutExtension(Application.persistentDataPath + "/" + fileName);
-    }
-
-    public void ResetLevel()
-    {
-        foreach (Transform child in level.transform)
-        {
-            if (child.CompareTag("Platform")) continue;
-            Destroy(child.gameObject);
-        }
     }
 
     public void SetSelectedLevel(GameObject button)
     {
         selectedLevelFile = button.transform.GetChild(0).GetComponent<TMP_Text>().text.Replace("Level: ", "");
+        currentLevelTXT.text = selectedLevelFile;
         Debug.Log("Selected File Name : " + selectedLevelFile);
+        LoadLevel();
     }
-
 }
