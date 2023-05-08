@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelHandler : MonoBehaviour, ILevelController
+public class LevelHandler : MonoBehaviour, ILevelHandler
 {
     [SerializeField] private int platformCount;
     [SerializeField] public GameObject[] itemPrefabs;
@@ -19,10 +19,7 @@ public class LevelHandler : MonoBehaviour, ILevelController
 
     public event Action OnLevelLoaded;
     private string selectedLevelFile;
-    private void Update()
-    {
 
-    }
     private void Start()
     {
         SetupLevel();
@@ -74,47 +71,6 @@ public class LevelHandler : MonoBehaviour, ILevelController
         }
     }
 
-    public void SaveLevelAsPrefab()
-    {
-        string levelsFolderPath = "Assets/_Assets/Prefabs/Levels/";
-
-        // Check if the folder exists and create it if not
-        if (!Directory.Exists(levelsFolderPath))
-        {
-            Directory.CreateDirectory(levelsFolderPath);
-        }
-
-        // Create a new instance of the RuntimePrefabData class
-        RuntimePrefabData runtimePrefabData = new RuntimePrefabData();
-        runtimePrefabData.name = level.name;
-        runtimePrefabData.children = new List<GameData.ObjectData>();
-
-        // Get all the children of the "level" GameObject and add them to the children list
-        Transform levelTransform = level.transform;
-        foreach (Transform child in levelTransform)
-        {
-            int prefabIndex = Array.FindIndex(itemPrefabs, prefab => prefab.name == child.gameObject.name.Replace("(Clone)", "").Trim());
-            if (prefabIndex >= 0)
-            {
-                GameData.ObjectData objectData = new GameData.ObjectData(prefabIndex, child.position, child.rotation);
-                runtimePrefabData.children.Add(objectData);
-            }
-            else
-            {
-                Debug.LogWarning("Prefab not found for: " + child.gameObject.name);
-            }
-        }
-
-        // Serialize the RuntimePrefabData instance to a JSON string
-        string json = JsonUtility.ToJson(runtimePrefabData);
-        Debug.Log("Saved JSON: " + json);
-
-        // Save the JSON string to a file with the provided file name
-        string fileName = level.name + ".json";
-        File.WriteAllText(levelsFolderPath + fileName, json);
-    }
-
-
     public void SetupLevel()
     {
         Vector3 spawnPosition = Vector3.zero;
@@ -158,8 +114,8 @@ public class LevelHandler : MonoBehaviour, ILevelController
         // Read the JSON string from the selected level file
         string json = File.ReadAllText(Path.Combine(Application.persistentDataPath, selectedLevelFile + ".json"));
 
-        // Deserialize the JSON string to a GameData instance
-        GameData gameData = JsonUtility.FromJson<GameData>(json);
+        // Deserialize the JSON string to a LevelData instance
+        LevelData gameData = JsonUtility.FromJson<LevelData>(json);
 
         // Reset the level
         ResetLevel();
@@ -171,7 +127,7 @@ public class LevelHandler : MonoBehaviour, ILevelController
         // Instantiate the saved level design
         for (int i = 0; i < gameData.levelChildren.Count; i++)
         {
-            GameData.ObjectData objectData = gameData.levelChildren[i];
+            LevelData.ObjectData objectData = gameData.levelChildren[i];
             Instantiate(itemPrefabs[objectData.prefabIndex], objectData.position, objectData.rotation, newLevel.transform);
         }
 
@@ -184,18 +140,18 @@ public class LevelHandler : MonoBehaviour, ILevelController
 
     private void SaveLevelToFile(string fileName)
     {
-        // Create a new instance of the GameData class
-        GameData gameData = new GameData();
+        // Create a new instance of the LevelData class
+        LevelData gameData = new LevelData();
 
         // Get all the children of the "level" GameObject and add them to the levelChildren list
         Transform levelTransform = level.transform;
-        gameData.levelChildren = new List<GameData.ObjectData>();
+        gameData.levelChildren = new List<LevelData.ObjectData>();
         foreach (Transform child in levelTransform)
         {
             int prefabIndex = Array.FindIndex(itemPrefabs, prefab => prefab.name == child.gameObject.name.Replace("(Clone)", "").Trim());
             if (prefabIndex >= 0)
             {
-                GameData.ObjectData objectData = new GameData.ObjectData(prefabIndex, child.position, child.rotation);
+                LevelData.ObjectData objectData = new LevelData.ObjectData(prefabIndex, child.position, child.rotation);
                 gameData.levelChildren.Add(objectData);
             }
             else
@@ -204,7 +160,7 @@ public class LevelHandler : MonoBehaviour, ILevelController
             }
         }
 
-        // Serialize the GameData instance to a JSON string
+        // Serialize the LevelData instance to a JSON string
         string json = JsonUtility.ToJson(gameData);
         Debug.Log("Saved JSON: " + json);
 

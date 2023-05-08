@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public interface IMouseInput
+public interface IInputListener
 {
     event Action<Vector3> OnLeftClick;
     event Action OnRightClick;

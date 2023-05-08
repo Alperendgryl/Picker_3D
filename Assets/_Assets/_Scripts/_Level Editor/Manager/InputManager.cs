@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour, IMouseInput
+public class InputManager : MonoBehaviour, IInputListener
 {
     public event Action<Vector3> OnLeftClick;
     public event Action OnRightClick;

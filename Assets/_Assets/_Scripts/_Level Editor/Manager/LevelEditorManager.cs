@@ -8,14 +8,14 @@ public class LevelEditorManager : MonoBehaviour
 
     private LevelHandler levelHandler;
     private InputHandler levelInteraction;
-    private IMouseInput inputManager;
+    private IInputListener inputManager;
     public GameObject Level
     {
         get { return levelInteraction.level; }
         set { levelInteraction.level = value; }
     }
 
-    public IMouseInput InputManager // Property injection
+    public IInputListener InputManager // Property injection
     {
         get { return inputManager; }
         set { inputManager = value; }
