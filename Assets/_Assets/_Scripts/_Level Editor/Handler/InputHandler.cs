@@ -5,11 +5,18 @@ public class InputHandler : MonoBehaviour, IInputHandler
     GameObject IInputHandler.level { get; set; }
 
     private IPositionHandler positionUtility;
+
     private PrefabSelectionManager psm;
+    private DragAndDropUtility dragAndDropUtility;
     private void Awake()
     {
         positionUtility = FindObjectOfType<PositionUtility>();
         psm = FindObjectOfType<PrefabSelectionManager>();
+        dragAndDropUtility = new DragAndDropUtility(positionUtility);
+    }
+    private void Update()
+    {
+        dragAndDropUtility.Update();
     }
 
     public void InstantiateObject()
