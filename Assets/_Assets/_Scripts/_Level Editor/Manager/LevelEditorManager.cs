@@ -1,90 +1,47 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class LevelEditorManager : MonoBehaviour
 {
-    private GameObject prefabToInstantiate;
-
-    #region External Scripts
+    private PrefabSelectionManager prefabSelectionManager;
     private LevelHandler levelHandler;
     private IInputHandler inputHandler;
     private IEventHandler eventHandler;
-    private IPositionHandler positionUtility;
-    #endregion
-
-    #region Property injection
-    public GameObject Level
-    {
-        get { return inputHandler.level; }
-        set { inputHandler.level = value; }
-    }
-
-    public IInputHandler InputHandler
-    {
-        get { return inputHandler; }
-        set { inputHandler = value; }
-    }
-
+    
     public IEventHandler EventHandler
     {
         get { return eventHandler; }
         set { eventHandler = value; }
     }
-
-    public IPositionHandler PositionHandler
-    {
-        get { return positionUtility; }
-        set { positionUtility = value; }
-    }
-    #endregion
-
     #region Lifecycle 
-
     private void Start()
     {
         InitializeHandlers();
         SubscribeEvents();
     }
-
-    private void LateUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ResetSelectedPrefabAndDeselectButtons();
-        }
-    }
-
     private void OnDestroy()
     {
         UnsubscribeEvents();
     }
-
     private void InitializeHandlers()
     {
-        if (eventHandler == null)
-        {
-            eventHandler = FindObjectOfType<EventSystemHandler>();
-        }
-        positionUtility = GetComponent<PositionUtility>();
-        levelHandler = GetComponent<LevelHandler>();
-        inputHandler = GetComponent<InputHandler>();
+        if (eventHandler == null) eventHandler = FindObjectOfType<EventSystemHandler>();
+
+        levelHandler = FindObjectOfType<LevelHandler>();
+        inputHandler = FindObjectOfType<InputHandler>();
+        prefabSelectionManager = FindObjectOfType<PrefabSelectionManager>();
+
         inputHandler.level = levelHandler.level;
     }
     #endregion
-
-    #region Handle Click
+    #region Handle Clicks
+    private GameObject prefabToInstantiate;
     private void HandleLeftClick(Vector3 mousePosition)
     {
-        if (UIUtility.IsMouseOverUI())
-        {
-            return;
-        }
+        if (UIUtility.IsMouseOverUI()) return;
 
-        if (prefabToInstantiate != null)
-        {
-            InstantiatePrefabAtMousePosition();
-        }
+        prefabToInstantiate = prefabSelectionManager.GetPrefabToInstantiate();
+        if (prefabToInstantiate != null) inputHandler.InstantiateObject(prefabToInstantiate);
     }
 
     private void HandleRightClick()
@@ -96,76 +53,11 @@ public class LevelEditorManager : MonoBehaviour
     {
         inputHandler.RotateObject();
     }
-    #endregion
 
-    #region Prefab Handlers
-
-    private void InstantiatePrefabAtMousePosition()
-    {
-        if (!UIUtility.IsMouseOverUI())
-        {
-            Vector3 worldPos = positionUtility.GetWorldMousePosition(prefabToInstantiate.tag, Camera.main);
-
-            if (worldPos != Vector3.zero)
-            {
-                // Check if there is already an object with the same tag at the world position
-                Collider[] colliders = Physics.OverlapSphere(worldPos, 0.1f);
-                bool shouldInstantiate = true;
-
-                foreach (Collider collider in colliders)
-                {
-                    if (collider.gameObject.CompareTag("Platform") || collider.gameObject.CompareTag("LevelEnd") || collider.gameObject.CompareTag("Pool"))
-                    {
-                        shouldInstantiate = false;
-                        break;
-                    }
-                }
-
-                if (shouldInstantiate)
-                {
-                    GameObject instantiatedObject = Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, inputHandler.level.transform);
-                    if (instantiatedObject == null)
-                    {
-                        Debug.LogError("Failed to instantiate prefab: " + prefabToInstantiate.name);
-                        return;
-                    }
-                    Debug.Log("Instantiated: " + prefabToInstantiate.name);
-                }
-                else
-                {
-                    Debug.Log("An object already exists at the position!");
-                }
-            }
-        }
-    }
-
-    public void ResetSelectedPrefabAndDeselectButtons()
+    private void HandleEscapeClick()
     {
         prefabToInstantiate = null;
-        foreach (var objectController in FindObjectsOfType<ObjectButtonController>())
-        {
-            objectController.SetButtonDeselected();
-        }
-    }
-    #endregion
-
-    #region Prefab To Instantiate
-    public void SetPrefabToInstantiate(int index)
-    {
-        prefabToInstantiate = levelHandler.itemPrefabs[index];
-    }
-
-    private void UpdatePrefabToInstantiate()
-    {
-        if (prefabToInstantiate != null)
-        {
-            int prefabIndex = Array.FindIndex(levelHandler.itemPrefabs, prefab => prefab.name == prefabToInstantiate.name);
-            if (prefabIndex >= 0)
-            {
-                prefabToInstantiate = levelHandler.itemPrefabs[prefabIndex];
-            }
-        }
-        Level = levelHandler.level; // Update the level reference
+        inputHandler.ResetObjectButtons();
     }
     #endregion
 
@@ -175,7 +67,7 @@ public class LevelEditorManager : MonoBehaviour
         eventHandler.OnLeftClick += HandleLeftClick;
         eventHandler.OnRightClick += HandleRightClick;
         eventHandler.OnMiddleClick += HandleMiddleClick;
-        levelHandler.OnLevelLoaded += UpdatePrefabToInstantiate;
+        eventHandler.OnEscapeClick += HandleEscapeClick;
     }
 
     private void UnsubscribeEvents()
@@ -183,7 +75,7 @@ public class LevelEditorManager : MonoBehaviour
         eventHandler.OnLeftClick -= HandleLeftClick;
         eventHandler.OnRightClick -= HandleRightClick;
         eventHandler.OnMiddleClick -= HandleMiddleClick;
-        levelHandler.OnLevelLoaded -= UpdatePrefabToInstantiate;
+        eventHandler.OnEscapeClick -= HandleEscapeClick;
     }
     #endregion Events
 }

@@ -11,7 +11,6 @@ public class PositionUtility : MonoBehaviour, IPositionHandler
         }
         return Vector3.zero;
     }
-
     public Vector3 AdjustPositionOfObject(string tag, Vector3 position)
     {
         if (tag == "Platform" || tag == "LevelEnd" || tag == "Pool")
@@ -20,25 +19,18 @@ public class PositionUtility : MonoBehaviour, IPositionHandler
             position.y = 0f;
             position.z = Mathf.Round(position.z / 10f) * 10f;
         }
-        else
-        {
-            position.y = 0.5f;
-        }
+        else position.y = 0.5f;
+
         return position;
     }
-
     public GameObject GetObjectAtMousePosition()
     {
         if (Physics.Raycast(GetRayHit(), out RaycastHit hit))
         {
-            if (hit.collider.gameObject.CompareTag("Plane"))
-            {
-                return null;
-            }
-
+            if (hit.collider.gameObject.CompareTag("Plane")) return null;
+  
             return hit.collider.gameObject;
         }
-
         return null;
     }
     public Ray GetRayHit()

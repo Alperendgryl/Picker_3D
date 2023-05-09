@@ -5,51 +5,31 @@ public class InputHandler : MonoBehaviour, IInputHandler
     GameObject IInputHandler.level { get; set; }
 
     private GameObject selectedObj;
-    private Material originalMaterial;
-    private Material highlightMaterial;
+    private Material originalMaterial, highlightMaterial;
 
     public bool isDragging = false;
-    public Vector3 offset;
-    public Vector3 originalPosition;
+    public Vector3 offset, originalPosition;
 
-    private IPositionHandler positionHandler;
+    private IPositionHandler positionUtility;
 
     private void Awake()
     {
-        positionHandler = GetComponent<IPositionHandler>();
+        positionUtility = FindObjectOfType<PositionUtility>();
+
         highlightMaterial = new Material(Shader.Find("Standard"));
         highlightMaterial.color = Color.yellow;
     }
 
-    public void DeleteObject()
+    public void SelectObject(GameObject prefabToInstantiate)
     {
-        if (Physics.Raycast(positionHandler.GetRayHit(), out RaycastHit hit))
-        {
-            if (!hit.transform.CompareTag("Plane")) Destroy(hit.transform.gameObject);
-        }
-    }
+        if (selectedObj != null) DeselectObject();
 
-    public void RotateObject()
-    {
-        if (Physics.Raycast(positionHandler.GetRayHit(), out RaycastHit hit))
-        {
-            if (!hit.transform.CompareTag("Plane")) hit.transform.Rotate(Vector3.up, 45f);
-        }
-    }
-
-    public void SelectObject(GameObject obj)
-    {
-        if (selectedObj != null)
-        {
-            DeselectObject();
-        }
-
-        selectedObj = obj;
-        originalMaterial = obj.GetComponent<Renderer>().material;
-        obj.GetComponent<Renderer>().material = highlightMaterial;
+        selectedObj = prefabToInstantiate;
+        originalMaterial = prefabToInstantiate.GetComponent<Renderer>().material;
+        prefabToInstantiate.GetComponent<Renderer>().material = highlightMaterial;
 
         isDragging = true;
-        originalPosition = obj.transform.position;
+        originalPosition = prefabToInstantiate.transform.position;
     }
 
     public void DeselectObject()
@@ -59,12 +39,56 @@ public class InputHandler : MonoBehaviour, IInputHandler
             selectedObj.GetComponent<Renderer>().material = originalMaterial;
             selectedObj = null;
         }
-
         isDragging = false;
+    }
+
+    public void InstantiateObject(GameObject prefabToInstantiate)
+    {
+        Vector3 worldPos = positionUtility.GetWorldMousePosition(prefabToInstantiate.tag, Camera.main);
+
+        if (worldPos != Vector3.zero)
+        {
+            Collider[] colliders = Physics.OverlapSphere(worldPos, 0.1f);
+            bool shouldInstantiate = true;
+
+            foreach (Collider collider in colliders)
+            {
+                if (collider.gameObject.CompareTag("Platform") || collider.gameObject.CompareTag("LevelEnd") || collider.gameObject.CompareTag("Pool"))
+                {
+                    shouldInstantiate = false;
+                    break;
+                }
+            }
+
+            if (shouldInstantiate)
+            {
+                GameObject instantiatedObject = Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, ((IInputHandler)this).level.transform);
+                if (instantiatedObject == null) return;
+                Debug.Log("Instantiated: " + prefabToInstantiate.name);
+            }
+            else Debug.Log("An object already exists at the position!");
+        }
+    }
+    public void DeleteObject()
+    {
+        if (Physics.Raycast(positionUtility.GetRayHit(), out RaycastHit hit)) if (!hit.transform.CompareTag("Plane")) Destroy(hit.transform.gameObject);
+    }
+
+    public void RotateObject()
+    {
+        if (Physics.Raycast(positionUtility.GetRayHit(), out RaycastHit hit)) if (!hit.transform.CompareTag("Plane")) hit.transform.Rotate(Vector3.up, 45f);
+    }
+
+    public void ResetObjectButtons()
+    {
+        foreach (var objectController in FindObjectsOfType<ObjectButtonController>())
+        {
+            objectController.SetButtonDeselected();
+        }
     }
 
     public void MoveObject()
     {
-        throw new System.NotImplementedException();
+        //Move the object position logic
     }
 }

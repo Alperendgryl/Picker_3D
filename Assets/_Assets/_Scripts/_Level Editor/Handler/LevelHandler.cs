@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 public class LevelHandler : MonoBehaviour, ILevelHandler
 {
+    public event Action OnLevelLoaded;
+
+    private string selectedLevelFile;
+
     [SerializeField] private int platformCount;
     [SerializeField] public GameObject[] itemPrefabs;
 
@@ -16,9 +20,6 @@ public class LevelHandler : MonoBehaviour, ILevelHandler
     [SerializeField] private GameObject levelsButtonPrefab;
     [SerializeField] private Transform content;
     [SerializeField] private TMP_Text currentLevelTXT;
-
-    public event Action OnLevelLoaded;
-    private string selectedLevelFile;
 
     private void Start()
     {
@@ -54,7 +55,7 @@ public class LevelHandler : MonoBehaviour, ILevelHandler
     {
         if (string.IsNullOrEmpty(selectedLevelFile))
         {
-            Debug.LogWarning("No level file selected to update");
+            Debug.LogWarning("No Level file selected to update");
             return;
         }
 
