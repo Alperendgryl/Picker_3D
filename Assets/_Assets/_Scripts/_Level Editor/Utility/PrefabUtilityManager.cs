@@ -7,7 +7,7 @@ public class PrefabUtilityManager : MonoBehaviour
     public void SaveAsPrefab()
     {
 #if UNITY_EDITOR
-        GameObject level = GameObject.FindGameObjectWithTag("level");
+        GameObject level = GameObject.FindGameObjectWithTag("Level");
 
         if (level != null)
         {
@@ -20,7 +20,7 @@ public class PrefabUtilityManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No GameObject with tag 'level' found.");
+            Debug.LogError("No GameObject with tag 'Level' found.");
         }
 #endif
     }

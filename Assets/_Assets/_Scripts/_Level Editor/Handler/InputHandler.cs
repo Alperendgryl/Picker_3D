@@ -11,10 +11,11 @@ public class InputHandler : MonoBehaviour, IInputHandler
     public Vector3 offset, originalPosition;
 
     private IPositionHandler positionUtility;
-
+    private PrefabSelectionManager psm;
     private void Awake()
     {
         positionUtility = FindObjectOfType<PositionUtility>();
+        psm = FindObjectOfType<PrefabSelectionManager>();
 
         highlightMaterial = new Material(Shader.Find("Standard"));
         highlightMaterial.color = Color.yellow;
@@ -42,33 +43,39 @@ public class InputHandler : MonoBehaviour, IInputHandler
         isDragging = false;
     }
 
-    public void InstantiateObject(GameObject prefabToInstantiate)
+    public void InstantiateObject()
     {
-        Vector3 worldPos = positionUtility.GetWorldMousePosition(prefabToInstantiate.tag, Camera.main);
+        GameObject prefabToInstantiate = psm.GetPrefabToInstantiate();
 
-        if (worldPos != Vector3.zero)
+        if (prefabToInstantiate != null)
         {
-            Collider[] colliders = Physics.OverlapSphere(worldPos, 0.1f);
-            bool shouldInstantiate = true;
+            Vector3 worldPos = positionUtility.GetWorldMousePosition(prefabToInstantiate.tag, Camera.main);
 
-            foreach (Collider collider in colliders)
+            if (worldPos != Vector3.zero)
             {
-                if (collider.gameObject.CompareTag("Platform") || collider.gameObject.CompareTag("LevelEnd") || collider.gameObject.CompareTag("Pool"))
+                Collider[] colliders = Physics.OverlapSphere(worldPos, 0.1f);
+                bool shouldInstantiate = true;
+
+                foreach (Collider collider in colliders)
                 {
-                    shouldInstantiate = false;
-                    break;
+                    if (collider.gameObject.CompareTag("Platform") || collider.gameObject.CompareTag("LevelEnd") || collider.gameObject.CompareTag("Pool"))
+                    {
+                        shouldInstantiate = false;
+                        break;
+                    }
                 }
-            }
 
-            if (shouldInstantiate)
-            {
-                GameObject instantiatedObject = Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, ((IInputHandler)this).level.transform);
-                if (instantiatedObject == null) return;
-                Debug.Log("Instantiated: " + prefabToInstantiate.name);
+                if (shouldInstantiate)
+                {
+                    GameObject instantiatedObject = Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, ((IInputHandler)this).level.transform);
+                    if (instantiatedObject == null) return;
+                    Debug.Log("Instantiated: " + prefabToInstantiate.name);
+                }
+                else Debug.Log("An object already exists at the position!");
             }
-            else Debug.Log("An object already exists at the position!");
         }
     }
+
     public void DeleteObject()
     {
         if (Physics.Raycast(positionUtility.GetRayHit(), out RaycastHit hit)) if (!hit.transform.CompareTag("Plane")) Destroy(hit.transform.gameObject);
@@ -85,6 +92,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
         {
             objectController.SetButtonDeselected();
         }
+        psm.SetPrefabAsNull();
     }
 
     public void MoveObject()

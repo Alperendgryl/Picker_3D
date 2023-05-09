@@ -45,11 +45,16 @@ public class PrefabSelectionManager : MonoBehaviour
             if (prefabIndex >= 0) prefabToInstantiate = levelHandler.itemPrefabs[prefabIndex];
         }
         level = levelHandler.level;
-        Debug.Log("UpdatePrefabToInstantiate");
+        Debug.Log("Update Prefab To Instantiate");
     }
 
     public GameObject GetPrefabToInstantiate()
     {
         return prefabToInstantiate;
+    }
+
+    public void SetPrefabAsNull()
+    {
+        prefabToInstantiate = null;
     }
 }

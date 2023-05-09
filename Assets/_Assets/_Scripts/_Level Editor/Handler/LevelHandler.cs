@@ -42,7 +42,7 @@ public class LevelHandler : MonoBehaviour, ILevelHandler
         selectedLevelFile = "Level" + nextLevelNumber;
         GameObject newButton = Instantiate(levelsButtonPrefab, content);
 
-        // Set the button text to the saved level name
+        // Set the button text to the saved Level name
         TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
         buttonText.text = Path.GetFileNameWithoutExtension(Application.persistentDataPath + "/" + fileName);
 
@@ -67,9 +67,9 @@ public class LevelHandler : MonoBehaviour, ILevelHandler
     {
         foreach (Transform child in level.transform)
         {
-            if (child.CompareTag("Platform")) continue;
             Destroy(child.gameObject);
         }
+        SetupLevel();
     }
 
     public void SetupLevel()
@@ -94,7 +94,7 @@ public class LevelHandler : MonoBehaviour, ILevelHandler
             // Instantiate the button prefab as a child of the content GameObject
             GameObject newButton = Instantiate(levelsButtonPrefab, content);
 
-            // Set the button text to the saved level name
+            // Set the button text to the saved Level name
             TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = Path.GetFileNameWithoutExtension(levelFile);
 
@@ -108,34 +108,34 @@ public class LevelHandler : MonoBehaviour, ILevelHandler
     {
         if (string.IsNullOrEmpty(selectedLevelFile))
         {
-            Debug.LogWarning("No level file selected");
+            Debug.LogWarning("No Level file selected");
             return;
         }
 
-        // Read the JSON string from the selected level file
+        // Read the JSON string from the selected Level file
         string json = File.ReadAllText(Path.Combine(Application.persistentDataPath, selectedLevelFile + ".json"));
 
         // Deserialize the JSON string to a LevelData instance
         LevelData gameData = JsonUtility.FromJson<LevelData>(json);
 
-        // Reset the level
+        // Reset the Level
         ResetLevel();
 
-        // Instantiate a new level GameObject
+        // Instantiate a new Level GameObject
         GameObject newLevel = new GameObject("Level");
         newLevel.tag = "Level";
 
-        // Instantiate the saved level design
+        // Instantiate the saved Level design
         for (int i = 0; i < gameData.levelChildren.Count; i++)
         {
             LevelData.ObjectData objectData = gameData.levelChildren[i];
             Instantiate(itemPrefabs[objectData.prefabIndex], objectData.position, objectData.rotation, newLevel.transform);
         }
 
-        // Delete the active level GameObject and replace it with the new one
+        // Delete the active Level GameObject and replace it with the new one
         Destroy(level);
         level = newLevel;
-        // Invoke the event to notify subscribers that the level has been loaded
+        // Invoke the event to notify subscribers that the Level has been loaded
         OnLevelLoaded?.Invoke();
     }
 
@@ -144,7 +144,7 @@ public class LevelHandler : MonoBehaviour, ILevelHandler
         // Create a new instance of the LevelData class
         LevelData gameData = new LevelData();
 
-        // Get all the children of the "level" GameObject and add them to the levelChildren list
+        // Get all the children of the "Level" GameObject and add them to the levelChildren list
         Transform levelTransform = level.transform;
         gameData.levelChildren = new List<LevelData.ObjectData>();
         foreach (Transform child in levelTransform)

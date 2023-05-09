@@ -8,6 +8,6 @@ public interface IInputHandler
     void SelectObject(GameObject prefabToInstantiate);
     void DeselectObject();
     void MoveObject();
-    void InstantiateObject(GameObject prefabToInstantiate);
+    void InstantiateObject();
     void ResetObjectButtons();
 }

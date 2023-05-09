@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class ObjectButtonController : MonoBehaviour //Attached to each button
 {
-    private PrefabSelectionManager prefabSelectionManager;
+    private PrefabSelectionManager psm;
 
     [SerializeField] private Color selectedColor;
     private int buttonIndex;
@@ -13,16 +14,16 @@ public class ObjectButtonController : MonoBehaviour //Attached to each button
 
     private void Start()
     {
-        prefabSelectionManager = FindObjectOfType<PrefabSelectionManager>();
+        psm = FindObjectOfType<PrefabSelectionManager>();
 
         button = GetComponent<Button>();
         normalColor = button.image.color;
-        buttonIndex = transform.GetSiblingIndex(); // The order of the objects should be the same as level editor item Prefabs list.
+        buttonIndex = transform.GetSiblingIndex();
     }
 
-    public void ButtonClicked() // Attached to the buttons onClick()
+    public void ButtonClicked() //buttons onClick()
     {
-        prefabSelectionManager.SetPrefabToInstantiate(buttonIndex);
+        psm.SetPrefabToInstantiate(buttonIndex);
         SetButtonSelected();
     }
 
@@ -37,6 +38,6 @@ public class ObjectButtonController : MonoBehaviour //Attached to each button
 
     public void SetButtonDeselected()
     {
-        button.image.color = normalColor; // Set the button's color back to the original color
+        button.image.color = normalColor;
     }
 }

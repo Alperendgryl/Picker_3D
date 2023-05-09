@@ -207,7 +207,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 604793903}
         m_TargetAssemblyTypeName: LevelHandler, Assembly-CSharp
         m_MethodName: ResetLevel
         m_Mode: 1
@@ -272,58 +272,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 5, y: 5}
   m_UseGraphicAlpha: 1
---- !u!1 &13544567
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 13544569}
-  - component: {fileID: 13544568}
-  m_Layer: 0
-  m_Name: '%$ Header'
-  m_TagString: EditorOnly
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &13544568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 13544567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd08058c8f786114eb9ec6564be9957c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  headerSettings:
-    headerText: New Header
-    headerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    editorOnly: 1
-    textAlignmentOptions: 0
-    fontStyleOptions: 0
-    fontSize: 12
-    fontColor: {r: 1, g: 1, b: 1, a: 1}
-    dropShadow: 0
---- !u!4 &13544569
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 13544567}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &55381552
 GameObject:
   m_ObjectHideFlags: 0
@@ -10769,7 +10717,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 604793903}
         m_TargetAssemblyTypeName: LevelHandler, Assembly-CSharp
         m_MethodName: UpdateLevel
         m_Mode: 1
@@ -10852,7 +10800,7 @@ RectTransform:
   m_Children:
   - {fileID: 6475015530289071068}
   m_Father: {fileID: 6475015531491008845}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10918,7 +10866,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 604793903}
         m_TargetAssemblyTypeName: LevelHandler, Assembly-CSharp
         m_MethodName: SaveLevel
         m_Mode: 1
@@ -11001,7 +10949,7 @@ RectTransform:
   m_Children:
   - {fileID: 6475015531359233590}
   m_Father: {fileID: 6475015531491008845}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -11299,7 +11247,7 @@ RectTransform:
   - {fileID: 6475015530396505165}
   - {fileID: 6475015531484713162}
   m_Father: {fileID: 6475015531491008845}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -11650,7 +11598,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6475015531726546277}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.5
+  m_Size: 0.375
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11685,16 +11633,16 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6475015531689231268}
+  - {fileID: 6475015530954123828}
   - {fileID: 6475015530068087150}
   - {fileID: 6475015530012701294}
-  - {fileID: 6475015530954123828}
   m_Father: {fileID: 1467527549}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -162.5, y: -650}
-  m_SizeDelta: {x: 325, y: 1300}
+  m_AnchoredPosition: {x: -162.5, y: -450}
+  m_SizeDelta: {x: 325, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6475015531491008846
 MonoBehaviour:
@@ -11924,7 +11872,7 @@ GameObject:
   - component: {fileID: 6475015531689231270}
   - component: {fileID: 6475015531689231269}
   m_Layer: 0
-  m_Name: levels
+  m_Name: lvltxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

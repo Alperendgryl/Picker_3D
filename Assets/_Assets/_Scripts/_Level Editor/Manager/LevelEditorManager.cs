@@ -3,11 +3,9 @@ using UnityEngine;
 
 public class LevelEditorManager : MonoBehaviour
 {
-    private PrefabSelectionManager prefabSelectionManager;
     private LevelHandler levelHandler;
     private IInputHandler inputHandler;
     private IEventHandler eventHandler;
-    
     public IEventHandler EventHandler
     {
         get { return eventHandler; }
@@ -29,19 +27,23 @@ public class LevelEditorManager : MonoBehaviour
 
         levelHandler = FindObjectOfType<LevelHandler>();
         inputHandler = FindObjectOfType<InputHandler>();
-        prefabSelectionManager = FindObjectOfType<PrefabSelectionManager>();
 
+        SetLevel(levelHandler.level);
         inputHandler.level = levelHandler.level;
+    }
+    public void SetLevel(GameObject level)
+    {
+        if (inputHandler != null)
+        {
+            inputHandler.level = level;
+        }
     }
     #endregion
     #region Handle Clicks
-    private GameObject prefabToInstantiate;
     private void HandleLeftClick(Vector3 mousePosition)
     {
         if (UIUtility.IsMouseOverUI()) return;
-
-        prefabToInstantiate = prefabSelectionManager.GetPrefabToInstantiate();
-        if (prefabToInstantiate != null) inputHandler.InstantiateObject(prefabToInstantiate);
+        inputHandler.InstantiateObject();
     }
 
     private void HandleRightClick()
@@ -56,7 +58,6 @@ public class LevelEditorManager : MonoBehaviour
 
     private void HandleEscapeClick()
     {
-        prefabToInstantiate = null;
         inputHandler.ResetObjectButtons();
     }
     #endregion
