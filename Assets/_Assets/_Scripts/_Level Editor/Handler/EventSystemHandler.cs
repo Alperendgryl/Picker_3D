@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour, IInputListener
+public class EventSystemHandler : MonoBehaviour, IEventHandler
 {
     public event Action<Vector3> OnLeftClick;
     public event Action OnRightClick;
@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour, IInputListener
         {
             OnRightClick?.Invoke();
         }
-        else if(Input.GetMouseButtonDown(2))
+        else if (Input.GetMouseButtonDown(2))
         {
             OnMiddleClick?.Invoke();
         }

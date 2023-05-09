@@ -5,33 +5,46 @@ using UnityEngine.EventSystems;
 public class LevelEditorManager : MonoBehaviour
 {
     private GameObject prefabToInstantiate;
+    private GameObject selectedObj;
 
+    #region External Scripts
     private LevelHandler levelHandler;
-    private InputHandler levelInteraction;
-    private IInputListener inputManager;
+    private IInputHandler inputHandler;
+    private IObjectHandler objectHandler;
+    private IEventHandler eventHandler;
+    #endregion
+
+    #region Property injection
     public GameObject Level
     {
-        get { return levelInteraction.level; }
-        set { levelInteraction.level = value; }
+        get { return inputHandler.level; }
+        set { inputHandler.level = value; }
     }
 
-    public IInputListener InputManager // Property injection
+    public IEventHandler InputListener
     {
-        get { return inputManager; }
-        set { inputManager = value; }
+        get { return eventHandler; }
+        set { eventHandler = value; }
+    }
+    #endregion
+
+    private void Awake()
+    {
+        objectHandler = new ObjectHandler(selectedObj);
     }
 
     private void Start()
     {
-        if (inputManager == null)
-        {
-            inputManager = FindObjectOfType<InputManager>();
-        }
-
-        levelHandler = GetComponent<LevelHandler>();
-        levelInteraction = GetComponent<InputHandler>();
-
+        InitializeHandlers();
         SubscribeEvents();
+    }
+
+    private void Update()
+    {
+        if (selectedObj != null)
+        {
+            objectHandler.UpdateSelectedObjectPosition(inputHandler);
+        }
     }
 
     private void OnDestroy()
@@ -39,39 +52,73 @@ public class LevelEditorManager : MonoBehaviour
         UnsubscribeEvents();
     }
 
+    #region Handle Click
     private void HandleLeftClick(Vector3 mousePosition)
     {
-        if (prefabToInstantiate != null && !IsMouseOverUI())
+        if (IsMouseOverUI())
         {
-            Vector3 worldPos = levelInteraction.GetWorldMousePosition(prefabToInstantiate.tag, Camera.main);
+            return;
+        }
 
-            if (worldPos != Vector3.zero)
-            {
-                Debug.Log("Instantiating: " + prefabToInstantiate.name);
-                GameObject instantiatedObject = Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, levelInteraction.level.transform);
-                if (instantiatedObject == null)
-                {
-                    Debug.LogError("Failed to instantiate prefab: " + prefabToInstantiate.name);
-                    return;
-                }
-                Debug.Log("Instantiated: " + instantiatedObject.name);
-            }
+        if (selectedObj != null)
+        {
+            objectHandler.UpdateSelectedObjectPosition(inputHandler);
+            objectHandler.DeselectObject();
+        }
+        else
+        {
+            HandleObjectSelectionOrInstantiation();
         }
     }
-
-
     private void HandleRightClick()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        levelInteraction.DeleteObjectAtMousePosition(ray);
+        inputHandler.DeleteObjectAtMousePosition(ray);
     }
 
     private void HandleMiddleClick()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        levelInteraction.RotateObjectAtMousePosition(ray);
+        inputHandler.RotateObjectAtMousePosition(ray);
+    }
+    #endregion
+
+    private void HandleObjectSelectionOrInstantiation()
+    {
+        if (prefabToInstantiate == null)
+        {
+            GameObject obj = objectHandler.GetObjectAtMousePosition();
+
+            if (obj != null)
+            {
+                objectHandler.SelectObject(obj);
+            }
+        }
+        else
+        {
+            InstantiatePrefabAtMousePosition();
+        }
+    }
+    private void InstantiatePrefabAtMousePosition()
+    {
+        if (!IsMouseOverUI())
+        {
+            Vector3 worldPos = inputHandler.GetWorldMousePosition(prefabToInstantiate.tag, Camera.main);
+
+            if (worldPos != Vector3.zero)
+            {
+                GameObject instantiatedObject = Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, inputHandler.level.transform);
+                if (instantiatedObject == null)
+                {
+                    Debug.LogError("Failed to instantiate prefab: " + prefabToInstantiate.name);
+                    return;
+                }
+                Debug.Log("Instantiated: " + prefabToInstantiate.name);
+            }
+        }
     }
 
+    #region Prefab To Instantiate
     public void SetPrefabToInstantiate(int index)
     {
         prefabToInstantiate = levelHandler.itemPrefabs[index];
@@ -89,25 +136,40 @@ public class LevelEditorManager : MonoBehaviour
         }
         Level = levelHandler.level; // Update the level reference
     }
+    #endregion
 
     private bool IsMouseOverUI()
     {
         return EventSystem.current.IsPointerOverGameObject();
     }
 
+    private void InitializeHandlers()
+    {
+        if (eventHandler == null)
+        {
+            eventHandler = FindObjectOfType<EventSystemHandler>();
+        }
+
+        levelHandler = GetComponent<LevelHandler>();
+        inputHandler = GetComponent<InputHandler>();
+        inputHandler.level = levelHandler.level;
+    }
+
+    #region Events
     private void SubscribeEvents()
     {
-        inputManager.OnLeftClick += HandleLeftClick;
-        inputManager.OnRightClick += HandleRightClick;
-        inputManager.OnMiddleClick += HandleMiddleClick;
+        eventHandler.OnLeftClick += HandleLeftClick;
+        eventHandler.OnRightClick += HandleRightClick;
+        eventHandler.OnMiddleClick += HandleMiddleClick;
         levelHandler.OnLevelLoaded += UpdatePrefabToInstantiate;
     }
 
     private void UnsubscribeEvents()
     {
-        inputManager.OnLeftClick -= HandleLeftClick;
-        inputManager.OnRightClick -= HandleRightClick;
-        inputManager.OnMiddleClick -= HandleMiddleClick;
+        eventHandler.OnLeftClick -= HandleLeftClick;
+        eventHandler.OnRightClick -= HandleRightClick;
+        eventHandler.OnMiddleClick -= HandleMiddleClick;
         levelHandler.OnLevelLoaded -= UpdatePrefabToInstantiate;
     }
+    #endregion Events
 }

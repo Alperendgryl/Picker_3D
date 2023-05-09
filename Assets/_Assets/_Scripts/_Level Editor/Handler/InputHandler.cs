@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class InputHandler : MonoBehaviour
+public class InputHandler : MonoBehaviour, IInputHandler
 {
-    [SerializeField] public GameObject level;
+    GameObject IInputHandler.level { get; set; }
 
     public Vector3 GetWorldMousePosition(string tag, Camera camera)
     {

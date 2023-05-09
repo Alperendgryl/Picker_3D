@@ -4,8 +4,8 @@ public class DependencyInjection : MonoBehaviour
 {
     private void Start()
     {
-        IInputListener inputManager = FindObjectOfType<InputManager>();
+        IEventHandler inputManager = FindObjectOfType<EventSystemHandler>();
         LevelEditorManager levelEditorManager = FindObjectOfType<LevelEditorManager>();
-        levelEditorManager.InputManager = inputManager; // Set the InputManager property for the LevelEditorManager instance
+        levelEditorManager.InputListener = inputManager; // Set the InputListener property for the LevelEditorManager instance
     }
 }
