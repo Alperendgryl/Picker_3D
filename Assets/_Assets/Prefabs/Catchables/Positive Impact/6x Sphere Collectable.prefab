@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4227621670028207412}
   m_Layer: 0
   m_Name: 6x Sphere Collectable
-  m_TagString: Untagged
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,6 +46,10 @@ PrefabInstance:
     - target: {fileID: 593423204259734032, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
       propertyPath: m_Name
       value: Sphere Collectable (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 593423204259734032, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 9137001550931703287, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
       propertyPath: m_RootOrder
@@ -109,6 +113,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sphere Collectable (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 593423204259734032, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 9137001550931703287, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -170,6 +178,10 @@ PrefabInstance:
     - target: {fileID: 593423204259734032, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
       propertyPath: m_Name
       value: Sphere Collectable (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 593423204259734032, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 9137001550931703287, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
       propertyPath: m_RootOrder
@@ -233,6 +245,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sphere Collectable (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 593423204259734032, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 9137001550931703287, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -295,6 +311,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sphere Collectable
       objectReference: {fileID: 0}
+    - target: {fileID: 593423204259734032, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 9137001550931703287, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -356,6 +376,10 @@ PrefabInstance:
     - target: {fileID: 593423204259734032, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
       propertyPath: m_Name
       value: Sphere Collectable (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 593423204259734032, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 9137001550931703287, guid: c0779d24aaec57444be45bcb52b2907c, type: 3}
       propertyPath: m_RootOrder

@@ -5,13 +5,12 @@ using UnityEngine.EventSystems;
 public class LevelEditorManager : MonoBehaviour
 {
     private GameObject prefabToInstantiate;
-    private GameObject selectedObj;
 
     #region External Scripts
     private LevelHandler levelHandler;
     private IInputHandler inputHandler;
-    private IObjectHandler objectHandler;
     private IEventHandler eventHandler;
+    private IPositionHandler positionUtility;
     #endregion
 
     #region Property injection
@@ -21,17 +20,26 @@ public class LevelEditorManager : MonoBehaviour
         set { inputHandler.level = value; }
     }
 
-    public IEventHandler InputListener
+    public IInputHandler InputHandler
+    {
+        get { return inputHandler; }
+        set { inputHandler = value; }
+    }
+
+    public IEventHandler EventHandler
     {
         get { return eventHandler; }
         set { eventHandler = value; }
     }
+
+    public IPositionHandler PositionHandler
+    {
+        get { return positionUtility; }
+        set { positionUtility = value; }
+    }
     #endregion
 
-    private void Awake()
-    {
-        objectHandler = new ObjectHandler(selectedObj);
-    }
+    #region Lifecycle 
 
     private void Start()
     {
@@ -39,11 +47,11 @@ public class LevelEditorManager : MonoBehaviour
         SubscribeEvents();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if (selectedObj != null)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            objectHandler.UpdateSelectedObjectPosition(inputHandler);
+            ResetSelectedPrefabAndDeselectButtons();
         }
     }
 
@@ -52,71 +60,94 @@ public class LevelEditorManager : MonoBehaviour
         UnsubscribeEvents();
     }
 
+    private void InitializeHandlers()
+    {
+        if (eventHandler == null)
+        {
+            eventHandler = FindObjectOfType<EventSystemHandler>();
+        }
+        positionUtility = GetComponent<PositionUtility>();
+        levelHandler = GetComponent<LevelHandler>();
+        inputHandler = GetComponent<InputHandler>();
+        inputHandler.level = levelHandler.level;
+    }
+    #endregion
+
     #region Handle Click
     private void HandleLeftClick(Vector3 mousePosition)
     {
-        if (IsMouseOverUI())
+        if (UIUtility.IsMouseOverUI())
         {
             return;
         }
 
-        if (selectedObj != null)
-        {
-            objectHandler.UpdateSelectedObjectPosition(inputHandler);
-            objectHandler.DeselectObject();
-        }
-        else
-        {
-            HandleObjectSelectionOrInstantiation();
-        }
-    }
-    private void HandleRightClick()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        inputHandler.DeleteObjectAtMousePosition(ray);
-    }
-
-    private void HandleMiddleClick()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        inputHandler.RotateObjectAtMousePosition(ray);
-    }
-    #endregion
-
-    private void HandleObjectSelectionOrInstantiation()
-    {
-        if (prefabToInstantiate == null)
-        {
-            GameObject obj = objectHandler.GetObjectAtMousePosition();
-
-            if (obj != null)
-            {
-                objectHandler.SelectObject(obj);
-            }
-        }
-        else
+        if (prefabToInstantiate != null)
         {
             InstantiatePrefabAtMousePosition();
         }
     }
+
+    private void HandleRightClick()
+    {
+        inputHandler.DeleteObject();
+    }
+
+    private void HandleMiddleClick()
+    {
+        inputHandler.RotateObject();
+    }
+    #endregion
+
+    #region Prefab Handlers
+
     private void InstantiatePrefabAtMousePosition()
     {
-        if (!IsMouseOverUI())
+        if (!UIUtility.IsMouseOverUI())
         {
-            Vector3 worldPos = inputHandler.GetWorldMousePosition(prefabToInstantiate.tag, Camera.main);
+            Vector3 worldPos = positionUtility.GetWorldMousePosition(prefabToInstantiate.tag, Camera.main);
 
             if (worldPos != Vector3.zero)
             {
-                GameObject instantiatedObject = Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, inputHandler.level.transform);
-                if (instantiatedObject == null)
+                // Check if there is already an object with the same tag at the world position
+                Collider[] colliders = Physics.OverlapSphere(worldPos, 0.1f);
+                bool shouldInstantiate = true;
+
+                foreach (Collider collider in colliders)
                 {
-                    Debug.LogError("Failed to instantiate prefab: " + prefabToInstantiate.name);
-                    return;
+                    if (collider.gameObject.CompareTag("Platform") || collider.gameObject.CompareTag("LevelEnd") || collider.gameObject.CompareTag("Pool"))
+                    {
+                        shouldInstantiate = false;
+                        break;
+                    }
                 }
-                Debug.Log("Instantiated: " + prefabToInstantiate.name);
+
+                if (shouldInstantiate)
+                {
+                    GameObject instantiatedObject = Instantiate(prefabToInstantiate, worldPos, Quaternion.identity, inputHandler.level.transform);
+                    if (instantiatedObject == null)
+                    {
+                        Debug.LogError("Failed to instantiate prefab: " + prefabToInstantiate.name);
+                        return;
+                    }
+                    Debug.Log("Instantiated: " + prefabToInstantiate.name);
+                }
+                else
+                {
+                    Debug.Log("An object already exists at the position!");
+                }
             }
         }
     }
+
+    public void ResetSelectedPrefabAndDeselectButtons()
+    {
+        prefabToInstantiate = null;
+        foreach (var objectController in FindObjectsOfType<ObjectButtonController>())
+        {
+            objectController.SetButtonDeselected();
+        }
+    }
+    #endregion
 
     #region Prefab To Instantiate
     public void SetPrefabToInstantiate(int index)
@@ -137,23 +168,6 @@ public class LevelEditorManager : MonoBehaviour
         Level = levelHandler.level; // Update the level reference
     }
     #endregion
-
-    private bool IsMouseOverUI()
-    {
-        return EventSystem.current.IsPointerOverGameObject();
-    }
-
-    private void InitializeHandlers()
-    {
-        if (eventHandler == null)
-        {
-            eventHandler = FindObjectOfType<EventSystemHandler>();
-        }
-
-        levelHandler = GetComponent<LevelHandler>();
-        inputHandler = GetComponent<InputHandler>();
-        inputHandler.level = levelHandler.level;
-    }
 
     #region Events
     private void SubscribeEvents()

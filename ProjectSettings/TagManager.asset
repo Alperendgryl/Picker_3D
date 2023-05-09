@@ -8,12 +8,11 @@ TagManager:
   - Collectable
   - Plane
   - Destroyer
-  - Multiplier
   - Pool
   - Platform
+  - LevelEnd
+  - BonusObject
   - Obstacle
-  - Level End
-  - Bonus Item
   layers:
   - Default
   - TransparentFX

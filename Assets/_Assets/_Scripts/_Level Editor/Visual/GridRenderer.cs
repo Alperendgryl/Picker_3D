@@ -9,12 +9,12 @@ public class GridRenderer : MonoBehaviour
     [SerializeField] private Color lineColor = Color.green;
     [SerializeField] private Material lineMaterial;
 
-    private InputHandler levelInteraction;
+    private PositionUtility positionUtility;
     private LineRenderer lineRenderer;
 
     private void Start()
     {
-        levelInteraction = FindObjectOfType<InputHandler>();
+        positionUtility = FindObjectOfType<PositionUtility>();
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.startWidth = lineWidth;
         lineRenderer.endWidth = lineWidth;
@@ -26,7 +26,7 @@ public class GridRenderer : MonoBehaviour
     {
         if (!IsMouseOverUI())
         {
-            Vector3 worldPos = levelInteraction.GetWorldMousePosition("Gizmos", Camera.main);
+            Vector3 worldPos = positionUtility.GetWorldMousePosition("Gizmos", Camera.main);
             if (worldPos != Vector3.zero)
             {
                 worldPos.y += gridHeight;

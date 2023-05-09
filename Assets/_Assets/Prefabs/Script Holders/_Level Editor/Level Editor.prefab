@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2900354266154071179}
   - component: {fileID: 2900354266154071180}
+  - component: {fileID: 293283482539803980}
   - component: {fileID: 1609739037}
   - component: {fileID: 1609739038}
   m_Layer: 0
@@ -45,6 +46,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f20d726ef3b4b488601573d536a4a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &293283482539803980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2900354266154071178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb241ff9b8b3136428c14813eac1f484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1609739037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,7 +70,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84eda36edecc155498ecd1851450a091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 0}
+  isDragging: 0
+  offset: {x: 0, y: 0, z: 0}
+  originalPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1609739038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,13 +103,15 @@ MonoBehaviour:
   - {fileID: 593423204259734032, guid: 1487e4009a60d514ab0515fd4fdbebea, type: 3}
   - {fileID: 3161005927662444632, guid: 0ecd42a4b610a7e4daf328cc39d65093, type: 3}
   - {fileID: 5800950762538364310, guid: 9fb0f2ca6288acf4fbdee38e88a15cfe, type: 3}
+  - {fileID: 3131805596126049188, guid: d9ab9192d9458f646a73b1e46d67d613, type: 3}
   - {fileID: 1788150418541771353, guid: 6be185d89407aad4fb3b4a8792dbd7cc, type: 3}
   - {fileID: 2744395342396782386, guid: 6e1c52a404f7fa042826fd013a87c41a, type: 3}
   - {fileID: 1553832111519588097, guid: efb3e108485378748a8627c7ca34de85, type: 3}
-  - {fileID: 3469655329779789087, guid: 83fcc3a87d206eb49a35e7cea7d7ade7, type: 3}
+  - {fileID: 7073190872990523232, guid: 83fcc3a87d206eb49a35e7cea7d7ade7, type: 3}
   - {fileID: 7692082992465189794, guid: 0a72ed396af3c9f468b17e5bd311b646, type: 3}
   - {fileID: 723134651251598876, guid: 80e0e54a232f3da4dbec387ebc6b3de3, type: 3}
   platform: {fileID: 7692082992465189794, guid: 0a72ed396af3c9f468b17e5bd311b646, type: 3}
   level: {fileID: 0}
   levelsButtonPrefab: {fileID: 6087141627008547438, guid: 7dfe9d0af461dc74688862e2f1e82a40, type: 3}
   content: {fileID: 0}
+  currentLevelTXT: {fileID: 0}

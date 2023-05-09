@@ -4,52 +4,67 @@ public class InputHandler : MonoBehaviour, IInputHandler
 {
     GameObject IInputHandler.level { get; set; }
 
-    public Vector3 GetWorldMousePosition(string tag, Camera camera)
+    private GameObject selectedObj;
+    private Material originalMaterial;
+    private Material highlightMaterial;
+
+    public bool isDragging = false;
+    public Vector3 offset;
+    public Vector3 originalPosition;
+
+    private IPositionHandler positionHandler;
+
+    private void Awake()
     {
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            Vector3 position = hit.point;
-            return AdjustPositionBasedOnTag(tag, position);
-        }
-        return Vector3.zero;
+        positionHandler = GetComponent<IPositionHandler>();
+        highlightMaterial = new Material(Shader.Find("Standard"));
+        highlightMaterial.color = Color.yellow;
     }
 
-    public void DeleteObjectAtMousePosition(Ray ray)
+    public void DeleteObject()
     {
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Physics.Raycast(positionHandler.GetRayHit(), out RaycastHit hit))
         {
             if (!hit.transform.CompareTag("Plane")) Destroy(hit.transform.gameObject);
         }
     }
 
-    public void RotateObjectAtMousePosition(Ray ray)
+    public void RotateObject()
     {
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Physics.Raycast(positionHandler.GetRayHit(), out RaycastHit hit))
         {
             if (!hit.transform.CompareTag("Plane")) hit.transform.Rotate(Vector3.up, 45f);
         }
     }
 
-    private Vector3 AdjustPositionBasedOnTag(string tag, Vector3 position)
+    public void SelectObject(GameObject obj)
     {
-        if (tag == "Platform" || tag == "Obstacle" || tag == "Level End")
+        if (selectedObj != null)
         {
-            position.x = 0f;
-            position.y = 0f;
-            position.z = Mathf.Round(position.z / 10f) * 10f;
+            DeselectObject();
         }
-        else if (tag == "Pool")
-        {
-            position.x = 0f;
-            position.y = 0f;
-            position.z = Mathf.Round(position.z / 10f) * 10f - 10f;
-        }
-        else
-        {
-            position.y = 0.5f;
-        }
-        return position;
+
+        selectedObj = obj;
+        originalMaterial = obj.GetComponent<Renderer>().material;
+        obj.GetComponent<Renderer>().material = highlightMaterial;
+
+        isDragging = true;
+        originalPosition = obj.transform.position;
     }
 
+    public void DeselectObject()
+    {
+        if (selectedObj != null)
+        {
+            selectedObj.GetComponent<Renderer>().material = originalMaterial;
+            selectedObj = null;
+        }
+
+        isDragging = false;
+    }
+
+    public void MoveObject()
+    {
+        throw new System.NotImplementedException();
+    }
 }

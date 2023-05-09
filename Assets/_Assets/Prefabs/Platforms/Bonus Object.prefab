@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 6200512367306749715}
   - component: {fileID: 8061405746230928564}
   m_Layer: 0
-  m_Name: Bonus Item
-  m_TagString: Bonus Item
+  m_Name: Bonus Object
+  m_TagString: BonusObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

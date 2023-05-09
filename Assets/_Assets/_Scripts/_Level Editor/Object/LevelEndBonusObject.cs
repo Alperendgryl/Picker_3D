@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class LevelEndBonusItem : MonoBehaviour
+public class LevelEndBonusObject : MonoBehaviour
 {
     public int _itemNumber = 0;
     public GameObject BonusNumText;

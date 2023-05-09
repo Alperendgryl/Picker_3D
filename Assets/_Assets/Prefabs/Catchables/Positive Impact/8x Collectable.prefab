@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 457207878499730331}
   m_Layer: 0
   m_Name: 8x Collectable
-  m_TagString: Untagged
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
