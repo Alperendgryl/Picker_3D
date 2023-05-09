@@ -5,9 +5,6 @@ public interface IInputHandler
     GameObject level { get; set; }
     void DeleteObject();
     void RotateObject();
-    void SelectObject(GameObject prefabToInstantiate);
-    void DeselectObject();
-    void MoveObject();
     void InstantiateObject();
     void ResetObjectButtons();
 }

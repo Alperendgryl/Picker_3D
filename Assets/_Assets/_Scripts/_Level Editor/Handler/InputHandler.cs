@@ -4,43 +4,12 @@ public class InputHandler : MonoBehaviour, IInputHandler
 {
     GameObject IInputHandler.level { get; set; }
 
-    private GameObject selectedObj;
-    private Material originalMaterial, highlightMaterial;
-
-    public bool isDragging = false;
-    public Vector3 offset, originalPosition;
-
     private IPositionHandler positionUtility;
     private PrefabSelectionManager psm;
     private void Awake()
     {
         positionUtility = FindObjectOfType<PositionUtility>();
         psm = FindObjectOfType<PrefabSelectionManager>();
-
-        highlightMaterial = new Material(Shader.Find("Standard"));
-        highlightMaterial.color = Color.yellow;
-    }
-
-    public void SelectObject(GameObject prefabToInstantiate)
-    {
-        if (selectedObj != null) DeselectObject();
-
-        selectedObj = prefabToInstantiate;
-        originalMaterial = prefabToInstantiate.GetComponent<Renderer>().material;
-        prefabToInstantiate.GetComponent<Renderer>().material = highlightMaterial;
-
-        isDragging = true;
-        originalPosition = prefabToInstantiate.transform.position;
-    }
-
-    public void DeselectObject()
-    {
-        if (selectedObj != null)
-        {
-            selectedObj.GetComponent<Renderer>().material = originalMaterial;
-            selectedObj = null;
-        }
-        isDragging = false;
     }
 
     public void InstantiateObject()
@@ -93,10 +62,5 @@ public class InputHandler : MonoBehaviour, IInputHandler
             objectController.SetButtonDeselected();
         }
         psm.SetPrefabAsNull();
-    }
-
-    public void MoveObject()
-    {
-        //Move the object position logic
     }
 }

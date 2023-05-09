@@ -6,16 +6,10 @@ public class PrefabSelectionManager : MonoBehaviour
     private LevelHandler levelHandler;
     private IInputHandler inputHandler;
     private GameObject prefabToInstantiate;
-
     public GameObject level
     {
         get { return inputHandler.level; }
         set { inputHandler.level = value; }
-    }
-    public IInputHandler InputHandler
-    {
-        get { return inputHandler; }
-        set { inputHandler = value; }
     }
     private void Start()
     {
