@@ -18,7 +18,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
     }
     private void Update()
     {
-        dragAndDropUtility.Update();
+        MoveObject();
     }
 
     public void InstantiateObject()
@@ -71,5 +71,10 @@ public class InputHandler : MonoBehaviour, IInputHandler
             objectController.SetButtonDeselected();
         }
         psm.SetPrefabAsNull();
+    }
+
+    public void MoveObject()
+    {
+        dragAndDropUtility.Update();
     }
 }

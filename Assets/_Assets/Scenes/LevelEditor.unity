@@ -3778,7 +3778,6 @@ GameObject:
   - component: {fileID: 635222680}
   - component: {fileID: 635222682}
   - component: {fileID: 635222681}
-  - component: {fileID: 635222683}
   m_Layer: 0
   m_Name: Complete Counts Panel
   m_TagString: Untagged
@@ -3799,8 +3798,8 @@ RectTransform:
   m_Children:
   - {fileID: 2138675134}
   - {fileID: 1949894855}
-  - {fileID: 1744403733}
   - {fileID: 1995192600}
+  - {fileID: 1744403733}
   m_Father: {fileID: 6475015531491008845}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3847,20 +3846,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 635222679}
   m_CullTransparentMesh: 1
---- !u!114 &635222683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635222679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db67410208d436d46892a089e08bae08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ccText: {fileID: 1995192601}
-  pool: {fileID: 11400000, guid: c799725201372054d8285bba0f3b7a7c, type: 2}
 --- !u!1 &661986294
 GameObject:
   m_ObjectHideFlags: 0
@@ -3890,7 +3875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d26968d56636d614ab2095c4ebb136fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  completeCountPanel: {fileID: 635222683}
+  CCValueTXT: {fileID: 1995192601}
 --- !u!4 &661986296
 Transform:
   m_ObjectHideFlags: 0
@@ -10036,7 +10021,7 @@ GameObject:
   - component: {fileID: 1744403735}
   - component: {fileID: 1744403734}
   m_Layer: 0
-  m_Name: coctcsTXT
+  m_Name: ccTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10054,7 +10039,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 635222680}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -11174,7 +11159,7 @@ GameObject:
   - component: {fileID: 1949894857}
   - component: {fileID: 1949894856}
   m_Layer: 0
-  m_Name: Decrement
+  m_Name: Decrement CCValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11245,7 +11230,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 661986295}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: DecrementPoolValue
+        m_MethodName: DecrementActivePoolValue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11728,7 +11713,7 @@ GameObject:
   - component: {fileID: 1995192602}
   - component: {fileID: 1995192601}
   m_Layer: 0
-  m_Name: 'coctcs Value TXT '
+  m_Name: CCValueTXT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11746,7 +11731,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 635222680}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12721,7 +12706,7 @@ GameObject:
   - component: {fileID: 2138675136}
   - component: {fileID: 2138675135}
   m_Layer: 0
-  m_Name: Increment
+  m_Name: Increment CCValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12792,7 +12777,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 661986295}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: IncrementPoolValue
+        m_MethodName: IncrementActivePoolValue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

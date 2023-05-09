@@ -7,4 +7,5 @@ public interface IInputHandler
     void RotateObject();
     void InstantiateObject();
     void ResetObjectButtons();
+    void MoveObject();
 }
