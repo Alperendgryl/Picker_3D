@@ -72,7 +72,15 @@ public class LevelDesignEditor : EditorWindow
         {
             levelEditorManager.SetLevel(instance);
         }
+
+        // Update the level reference in the LevelHandler
+        LevelHandler levelHandler = FindObjectOfType<LevelHandler>();
+        if (levelHandler != null)
+        {
+            levelHandler.SetLevel(instance);
+        }
     }
+
 
 
     private void SavePrefabChanges()

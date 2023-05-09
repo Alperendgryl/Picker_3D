@@ -13,6 +13,7 @@ TagManager:
   - LevelEnd
   - BonusObject
   - Obstacle
+  - Picker
   layers:
   - Default
   - TransparentFX

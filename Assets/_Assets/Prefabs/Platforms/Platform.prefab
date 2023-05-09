@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 7692082992465189806}
   - component: {fileID: 7692082992465189807}
   - component: {fileID: 7692082992465189792}
-  - component: {fileID: 7692082992465189793}
+  - component: {fileID: 1637525334}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Platform
@@ -122,7 +122,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7692082992465189794}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -181,7 +181,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7692082992465189793
+--- !u!64 &1637525334
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

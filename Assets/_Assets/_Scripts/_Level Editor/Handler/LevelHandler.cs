@@ -176,4 +176,8 @@ public class LevelHandler : MonoBehaviour, ILevelHandler
         Debug.Log("Active Level : " + selectedLevelFile);
         LoadLevel();
     }
+    public void SetLevel(GameObject newLevel)
+    {
+        level = newLevel;
+    }
 }
