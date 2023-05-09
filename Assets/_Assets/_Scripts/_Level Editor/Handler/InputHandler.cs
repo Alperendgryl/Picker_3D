@@ -7,12 +7,14 @@ public class InputHandler : MonoBehaviour, IInputHandler
     private IPositionHandler positionUtility;
 
     private PrefabSelectionManager psm;
+    private UIManager uiManager;
     private DragAndDropUtility dragAndDropUtility;
     private void Awake()
     {
+        uiManager = FindObjectOfType<UIManager>();
         positionUtility = FindObjectOfType<PositionUtility>();
         psm = FindObjectOfType<PrefabSelectionManager>();
-        dragAndDropUtility = new DragAndDropUtility(positionUtility);
+        dragAndDropUtility = new DragAndDropUtility(positionUtility, uiManager);
     }
     private void Update()
     {

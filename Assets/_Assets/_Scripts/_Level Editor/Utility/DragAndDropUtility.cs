@@ -3,13 +3,15 @@ using UnityEngine;
 public class DragAndDropUtility
 {
     private IPositionHandler positionUtility;
+    private UIManager uiManager;
 
     private GameObject selectedObject;
     private Material initialMaterial;
     private Material highlightMaterial;
-    public DragAndDropUtility(IPositionHandler positionUtility)
+    public DragAndDropUtility(IPositionHandler positionUtility, UIManager uiManager)
     {
         this.positionUtility = positionUtility;
+        this.uiManager = uiManager;
         highlightMaterial = new Material(Shader.Find("Standard"));
         highlightMaterial.color = Color.yellow;
     }
@@ -35,6 +37,13 @@ public class DragAndDropUtility
                     {
                         initialMaterial = objectRenderer.material;
                         objectRenderer.material = highlightMaterial;
+                    }
+
+                    // Add this block of code
+                    PoolObject poolObject = selectedObject.GetComponent<PoolObject>();
+                    if (poolObject != null)
+                    {
+                        uiManager.SetActivePool(poolObject);
                     }
                 }
             }
@@ -62,5 +71,4 @@ public class DragAndDropUtility
             }
         }
     }
-
 }

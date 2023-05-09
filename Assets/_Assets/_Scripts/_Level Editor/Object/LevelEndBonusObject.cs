@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class LevelEndBonusObject : MonoBehaviour
 {
-    public int _itemNumber = 0;
-    public GameObject BonusNumText;
+    [SerializeField] private int _itemNumber = 0;
+    [SerializeField] private GameObject BonusNumText;
 
     private void Awake()
     {
