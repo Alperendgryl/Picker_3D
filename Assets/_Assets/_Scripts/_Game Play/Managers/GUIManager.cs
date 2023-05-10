@@ -1,7 +1,17 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class GUIManager : MonoBehaviour
 {
+    [SerializeField] private DOTweenAnimation[] uiElements;
+    public void StartLevelAnim()
+    {
+        foreach (DOTweenAnimation animation in uiElements)
+        {
+            animation.DOPlayAllById("0");
+        }
+    }
+
     #region Start Panel
     #endregion
 

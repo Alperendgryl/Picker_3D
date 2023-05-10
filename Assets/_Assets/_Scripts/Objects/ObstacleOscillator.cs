@@ -34,8 +34,19 @@ public class ObstacleOscillator : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Picker")) return;
+        if (other.gameObject.CompareTag("Picker")) ApplyPushBackForce(other);
         if (other.collider == null) return;
         Destroy(other.gameObject);
+    }
+
+    private void ApplyPushBackForce(Collision collision)
+    {
+        Rigidbody otherRigidbody = collision.gameObject.GetComponent<Rigidbody>();
+        if (otherRigidbody != null)
+        {
+            Vector3 pushBackDirection = (collision.transform.position - transform.position).normalized;
+            float pushBackForce = 5f;
+            otherRigidbody.AddForce(pushBackDirection * pushBackForce, ForceMode.Impulse);
+        }
     }
 }

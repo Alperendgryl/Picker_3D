@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -5,11 +7,10 @@ public class PoolObject : MonoBehaviour
 {
     [SerializeField] private TMP_Text ccText;
     public int ccValue;
-    public int MIN_CC_VALUE = 5;
-
-    private int collectedValue;
 
     #region Level Editor
+    private int MIN_CC_VALUE = 5;
+
     private void Start()
     {
         collectedValue = 0;
@@ -38,6 +39,12 @@ public class PoolObject : MonoBehaviour
     #endregion
 
     #region GamePlay
+
+    [SerializeField] private GameObject poolInside;
+    [SerializeField] private GameObject poolGate;
+
+    private int collectedValue;
+
     private void Update()
     {
         UpdateGPCCValue();
@@ -49,12 +56,39 @@ public class PoolObject : MonoBehaviour
         {
             collectedValue++;
             UpdateGPCCValue();
+            CheckPoolStatus();
         }
     }
 
     private void UpdateGPCCValue()
     {
         ccText.text = $"{collectedValue}/{ccValue}";
+    }
+
+    private void CheckPoolStatus()
+    {
+        if (collectedValue > ccValue)
+        {
+            StartCoroutine(PoolAnimations());
+        }
+        else
+        {
+            Debug.Log(collectedValue);
+        }
+    }
+
+    private IEnumerator PoolAnimations()
+    {
+        yield return new WaitForSeconds(2f);
+
+        for (int i = 0; i < poolGate.transform.childCount; i++) //Animate the pool gates
+        {
+            poolGate.transform.GetChild(i).gameObject.GetComponent<DOTweenAnimation>().DOPlay();
+        }
+
+        poolInside.gameObject.transform.DOMoveY(0, 1.5f); // Move the pool to the surface
+
+        //move picker
     }
     #endregion
 }

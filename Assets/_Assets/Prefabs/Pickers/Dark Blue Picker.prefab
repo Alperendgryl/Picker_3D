@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 4411934860441881316}
   - component: {fileID: 2634747513502065111}
   m_Layer: 0
-  m_Name: Cube (6)
+  m_Name: Back
   m_TagString: Picker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 137905183841045519}
   - component: {fileID: 2279934797734617478}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: Back
   m_TagString: Picker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 4821474374104928731}
   - component: {fileID: 3857053105479523661}
   m_Layer: 0
-  m_Name: Cube (8)
+  m_Name: Back
   m_TagString: Picker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 7373691299850048527}
   - component: {fileID: 5220136092826730779}
   m_Layer: 0
-  m_Name: Cube (7)
+  m_Name: Back
   m_TagString: Picker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -533,7 +533,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!114 &8165193126612905864
 MonoBehaviour:
@@ -548,7 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeedX: 7
-  moveSpeedZ: 7
+  moveSpeedZ: 8
   minX: -3.3
   maxX: 3.3
 --- !u!1 &8017301765815310675
@@ -564,7 +564,7 @@ GameObject:
   - component: {fileID: 6960165660051951614}
   - component: {fileID: 6930841568267083130}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: Back
   m_TagString: Picker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

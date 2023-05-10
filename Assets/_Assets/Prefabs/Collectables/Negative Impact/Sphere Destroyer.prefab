@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5526580575992613420}
   - component: {fileID: 5004778448375205951}
   - component: {fileID: -9092315234056744916}
+  - component: {fileID: 3883946952227044793}
   m_Layer: 0
   m_Name: Sphere Destroyer
   m_TagString: Destroyer
@@ -113,3 +114,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &3883946952227044793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593423204259734032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b49df62e2f7f4d84fa48bc9c6168246a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: 795c6942f6d28424181ce34acd6c62d5, type: 3}

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IGameLevelHandler
 {
-    private UIAnimationManager uiAnimationController;
+    private GUIManager guiManager;
     private PickerController pickerController;
 
     private IGameEventHandler gameEventHandler;
@@ -20,42 +20,11 @@ public class GameManager : MonoBehaviour
     private void InitializeHandlers()
     {
         gameEventHandler = FindObjectOfType<GameEventHandler>();
-        uiAnimationController = FindObjectOfType<UIAnimationManager>();
+        guiManager = FindObjectOfType<GUIManager>();
         pickerController = FindObjectOfType<PickerController>();
     }
 
     #region Handle Clicks
-    private void StartLevel()
-    {
-        //START LEVEL LOGIC
-        pickerController.MovePicker();
-        uiAnimationController.StartLevelAnim();
-    }
-
-    private void EndLevel()
-    {
-        //END LEVEL LOGIC
-        pickerController.StopPicker();
-        uiAnimationController.EndLevelAnim();
-    }
-
-    private void RestartLevel()
-    {
-        //RESTART LEVEL LOGIC
-        uiAnimationController.RestartLevelAnim();
-    }
-
-    private void WinLevel()
-    {
-        //WIN LEVEL LOGIC
-        uiAnimationController.WinLevelAnim();
-    }
-
-    private void FailLevel()
-    {
-        //FAIL LEVEL LOGIC
-        uiAnimationController.FailLevelAnim();
-    }
 
     #endregion
 
@@ -75,6 +44,35 @@ public class GameManager : MonoBehaviour
         gameEventHandler.OnLevelRestart -= RestartLevel;
         gameEventHandler.OnLevelWin -= WinLevel;
         gameEventHandler.OnLevelFailed -= FailLevel;
+    }
+
+    public void StartLevel()
+    {
+        //START LEVEL LOGIC
+        pickerController.MovePicker();
+        guiManager.StartLevelAnim();
+    }
+
+    public void EndLevel()
+    {
+        //END LEVEL LOGIC
+        pickerController.StopPicker();
+
+    }
+
+    public void RestartLevel()
+    {
+        pickerController.RestartPickerPos();
+    }
+
+    public void WinLevel()
+    {
+        pickerController.RestartPickerPos();
+    }
+
+    public void FailLevel()
+    {
+        pickerController.RestartPickerPos();
     }
     #endregion
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.Video.VideoPlayer;
 
 public class PickerController : MonoBehaviour
 {
@@ -9,11 +8,12 @@ public class PickerController : MonoBehaviour
     [SerializeField] private float maxX = 3.3f;
 
     private Rigidbody rb;
-    GameEventHandler gameEventHandler;
     private bool PickerCanMove;
+
+    private Vector3 pickerInitialPos;
     private void Start()
     {
-        gameEventHandler = FindObjectOfType<GameEventHandler>();
+        pickerInitialPos = transform.position;
         rb = GetComponent<Rigidbody>();
     }
 
@@ -42,13 +42,13 @@ public class PickerController : MonoBehaviour
 
     public void StopPicker()
     {
-
-        //wait for UI
+        PickerCanMove = false;
     }
 
     public void RestartPickerPos()
     {
-        //Restart the pos of picker when the game restarts
+        //if new level, level restart, levelend etc...
+        transform.position = pickerInitialPos;
     }
 
     public void ChangePickerColor()
@@ -56,4 +56,12 @@ public class PickerController : MonoBehaviour
         //Store Logic
     }
     #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("StageArea"))
+        {
+            StopPicker();
+        }
+    }
 }
