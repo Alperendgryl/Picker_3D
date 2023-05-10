@@ -1,5 +1,4 @@
 using System;
-
 public interface IGameEventHandler
 {
     event Action OnLevelStarted;

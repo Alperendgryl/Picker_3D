@@ -1,8 +1,10 @@
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class GUIManager : MonoBehaviour
 {
+    [SerializeField] private TMP_Text diamondTXT;
     [SerializeField] private DOTweenAnimation[] uiElements;
     public void StartLevelAnim()
     {
@@ -12,24 +14,17 @@ public class GUIManager : MonoBehaviour
         }
     }
 
-    #region Start Panel
-    #endregion
-
-    #region End Panel
-    #endregion
-
-    #region Shop Panel
-    #endregion
-
-    #region Missions Panel
-    #endregion
-
-    #region Challenge Panel
-    #endregion
-
     #region Diamond
+    private void UpdateDiamond()
+    {
+        diamondTXT.text = "5";
+    }
     #endregion
 
     #region Level Indicator
+    private void LevelIndicator()
+    {
+
+    }
     #endregion
 }

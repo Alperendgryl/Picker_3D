@@ -1,20 +1,13 @@
 using System;
 using UnityEngine;
 
-public class GameEventHandler : MonoBehaviour, IGameEventHandler
+public class GameEventHandler : IGameEventHandler
 {
     public event Action OnLevelStarted, OnLevelEnd, OnLevelRestart, OnLevelWin, OnLevelFailed;
 
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0)) OnLevelStarted?.Invoke(); //|| Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began 
-
-        //if (LevelEnded) OnLevelEnd?.Invoke();
-
-        //if (LevelRestarded) OnLevelRestart?.Invoke();
-
-        //if (LevelWin) OnLevelWin?.Invoke();
-
-        //if (LevelFailed) OnLevelFailed?.Invoke();
-    }
+    public void TriggerLevelStarted() => OnLevelStarted?.Invoke();
+    public void TriggerLevelEnd() => OnLevelEnd?.Invoke();
+    public void TriggerLevelRestart() => OnLevelRestart?.Invoke();
+    public void TriggerLevelWin() => OnLevelWin?.Invoke();
+    public void TriggerLevelFailed() => OnLevelFailed?.Invoke();
 }
