@@ -6,6 +6,7 @@ public class DragAndDropUtility
     private UIManager uiManager;
 
     private GameObject selectedObject;
+    private GameObject selectedObjectParent;
     private Material initialMaterial;
     private Material highlightMaterial;
     public DragAndDropUtility(IPositionHandler positionUtility, UIManager uiManager)
@@ -45,6 +46,8 @@ public class DragAndDropUtility
                     {
                         uiManager.SetActivePool(poolObject);
                     }
+
+                    selectedObjectParent = selectedObject.transform.parent?.gameObject;
                 }
             }
         }
@@ -57,7 +60,15 @@ public class DragAndDropUtility
                     string tag = selectedObject.tag;
                     Vector3 newPosition = new Vector3(hit.point.x, Mathf.Max(hit.point.y, 0f), hit.point.z);
                     Vector3 adjustedPosition = positionUtility.AdjustPositionOfObject(tag, newPosition);
-                    selectedObject.transform.position = adjustedPosition;
+
+                    if (selectedObjectParent != null && selectedObject.CompareTag("Picker"))
+                    {
+                        selectedObjectParent.transform.position = adjustedPosition;
+                    }
+                    else
+                    {
+                        selectedObject.transform.position = adjustedPosition;
+                    }
                 }
             }
             else if (Input.GetMouseButtonUp(0))
@@ -68,6 +79,7 @@ public class DragAndDropUtility
                     objectRenderer.material = initialMaterial;
                 }
                 selectedObject = null;
+                selectedObjectParent = null;
             }
         }
     }
