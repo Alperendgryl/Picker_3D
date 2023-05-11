@@ -64,4 +64,18 @@ public class PickerController : MonoBehaviour
             StopPicker();
         }
     }
+
+    #region Events
+    private void OnEnable()
+    {
+        var gameEventHandler = FindObjectOfType<GameManager>().GameEventHandler;
+        gameEventHandler.OnPoolAnimationsFinished += MovePicker;
+    }
+
+    private void OnDisable()
+    {
+        var gameEventHandler = FindObjectOfType<GameManager>().GameEventHandler;
+        gameEventHandler.OnPoolAnimationsFinished -= MovePicker;
+    }
+    #endregion
 }

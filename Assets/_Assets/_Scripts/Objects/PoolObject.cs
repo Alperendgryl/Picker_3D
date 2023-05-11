@@ -45,11 +45,6 @@ public class PoolObject : MonoBehaviour
 
     private int collectedValue;
 
-    private void Update()
-    {
-        UpdateGPCCValue();
-    }
-
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Collectable"))
@@ -81,14 +76,16 @@ public class PoolObject : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        for (int i = 0; i < poolGate.transform.childCount; i++) //Animate the pool gates
+        for (int i = 0; i < poolGate.transform.childCount; i++) // Animate the pool gates
         {
             poolGate.transform.GetChild(i).gameObject.GetComponent<DOTweenAnimation>().DOPlay();
         }
 
         poolInside.gameObject.transform.DOMoveY(0, 1.5f); // Move the pool to the surface
 
-        //move picker
+        yield return new WaitForSeconds(1.5f); // Wait for the animations to finish
+
+        FindObjectOfType<GameManager>().GameEventHandler.TriggerPoolAnimationsFinished(); // Trigger the event
     }
     #endregion
 }

@@ -6,4 +6,5 @@ public interface IGameEventHandler
     event Action OnLevelRestart;
     event Action OnLevelWin;
     event Action OnLevelFailed;
+    event Action OnPoolAnimationsFinished;
 }

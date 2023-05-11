@@ -6,4 +6,3 @@ public interface IGameLevelHandler
     public void WinLevel();
     public void FailLevel();
 }
-

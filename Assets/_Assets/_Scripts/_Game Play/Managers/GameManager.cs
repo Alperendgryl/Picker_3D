@@ -5,6 +5,17 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
     private GUIManager guiManager;
     private PickerController pickerController;
     private GameEventHandler gameEventHandler;
+    public GameEventHandler GameEventHandler
+    {
+        get
+        {
+            if (gameEventHandler == null)
+            {
+                gameEventHandler = new GameEventHandler();
+            }
+            return gameEventHandler;
+        }
+    }
 
     private void Start()
     {
@@ -12,14 +23,8 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
         SubscribeEvents();
     }
 
-    private void OnDestroy()
-    {
-        UnsubscribeEvents();
-    }
-
     private void InitializeHandlers()
     {
-        gameEventHandler = new GameEventHandler();
         guiManager = FindObjectOfType<GUIManager>();
         pickerController = FindObjectOfType<PickerController>();
     }
@@ -58,14 +63,4 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
         gameEventHandler.OnLevelWin += WinLevel;
         gameEventHandler.OnLevelFailed += FailLevel;
     }
-
-    private void UnsubscribeEvents()
-    {
-        gameEventHandler.OnLevelStarted -= StartLevel;
-        gameEventHandler.OnLevelEnd -= EndLevel;
-        gameEventHandler.OnLevelRestart -= RestartLevel;
-        gameEventHandler.OnLevelWin -= WinLevel;
-        gameEventHandler.OnLevelFailed -= FailLevel;
-    }
-
 }

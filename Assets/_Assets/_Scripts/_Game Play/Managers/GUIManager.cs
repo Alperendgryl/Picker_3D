@@ -14,17 +14,13 @@ public class GUIManager : MonoBehaviour
         }
     }
 
-    #region Diamond
     private void UpdateDiamond()
     {
         diamondTXT.text = "5";
     }
-    #endregion
 
-    #region Level Indicator
     private void LevelIndicator()
     {
 
     }
-    #endregion
 }
