@@ -5,13 +5,24 @@ using UnityEngine;
 
 public class PoolObject : MonoBehaviour
 {
+    [Header("Level Editor")]
     [SerializeField] private TMP_Text ccText;
+    [SerializeField] private int MIN_CC_VALUE = 5;
     public int ccValue;
 
-    #region Level Editor
-    private int MIN_CC_VALUE = 5;
+    [Header("GamePlay")]
+    [SerializeField] private GameObject poolInside;
+    [SerializeField] private GameObject poolGate;
+
+    private int collectedValue;
 
     private void Start()
+    {
+        InitializePool();
+    }
+
+    #region Level Editor
+    private void InitializePool()
     {
         collectedValue = 0;
         UpdateCCText();
@@ -39,20 +50,19 @@ public class PoolObject : MonoBehaviour
     #endregion
 
     #region GamePlay
-
-    [SerializeField] private GameObject poolInside;
-    [SerializeField] private GameObject poolGate;
-
-    private int collectedValue;
-
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Collectable"))
         {
-            collectedValue++;
-            UpdateGPCCValue();
-            CheckPoolStatus();
+            CollectItem();
         }
+    }
+
+    private void CollectItem()
+    {
+        collectedValue++;
+        UpdateGPCCValue();
+        CheckPoolStatus();
     }
 
     private void UpdateGPCCValue()
@@ -62,30 +72,37 @@ public class PoolObject : MonoBehaviour
 
     private void CheckPoolStatus()
     {
-        if (collectedValue > ccValue)
+        if (collectedValue >= ccValue)
         {
             StartCoroutine(PoolAnimations());
         }
         else
         {
-            Debug.Log(collectedValue);
+            // Level Failed, Open fail panel
         }
     }
 
     private IEnumerator PoolAnimations()
     {
         yield return new WaitForSeconds(2f);
+        AnimatePoolGates();
+        MovePoolToSurface();
 
+        yield return new WaitForSeconds(1.5f); // Wait for the animations to finish
+        FindObjectOfType<GameManager>().GameEventHandler.TriggerPoolAnimationsFinished(); // Trigger the event
+    }
+
+    private void AnimatePoolGates()
+    {
         for (int i = 0; i < poolGate.transform.childCount; i++) // Animate the pool gates
         {
             poolGate.transform.GetChild(i).gameObject.GetComponent<DOTweenAnimation>().DOPlay();
         }
+    }
 
+    private void MovePoolToSurface()
+    {
         poolInside.gameObject.transform.DOMoveY(0, 1.5f); // Move the pool to the surface
-
-        yield return new WaitForSeconds(1.5f); // Wait for the animations to finish
-
-        FindObjectOfType<GameManager>().GameEventHandler.TriggerPoolAnimationsFinished(); // Trigger the event
     }
     #endregion
 }

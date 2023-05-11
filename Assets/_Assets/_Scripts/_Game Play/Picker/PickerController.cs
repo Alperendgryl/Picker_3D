@@ -11,6 +11,7 @@ public class PickerController : MonoBehaviour
     private bool PickerCanMove;
 
     private Vector3 pickerInitialPos;
+    private bool isInStageArea = false;
     private void Start()
     {
         pickerInitialPos = transform.position;
@@ -27,12 +28,16 @@ public class PickerController : MonoBehaviour
 
     public void Movement()
     {
-        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal") * moveSpeedX, 0, moveSpeedZ) * Time.fixedDeltaTime;
-        Vector3 targetPosition = rb.position + moveDirection;
-        targetPosition.x = Mathf.Clamp(targetPosition.x, minX, maxX);
+        if (!isInStageArea)
+        {
+            Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal") * moveSpeedX, 0, moveSpeedZ) * Time.fixedDeltaTime;
+            Vector3 targetPosition = rb.position + moveDirection;
+            targetPosition.x = Mathf.Clamp(targetPosition.x, minX, maxX);
 
-        rb.MovePosition(targetPosition);
+            rb.MovePosition(targetPosition);
+        }
     }
+
 
     #region Picker States
     public void MovePicker()
@@ -43,6 +48,11 @@ public class PickerController : MonoBehaviour
     public void StopPicker()
     {
         PickerCanMove = false;
+    }
+
+    public void ResetIsInStageArea()
+    {
+        isInStageArea = false;
     }
 
     public void RestartPickerPos()
@@ -61,21 +71,25 @@ public class PickerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("StageArea"))
         {
+            isInStageArea = true;
             StopPicker();
         }
     }
+
 
     #region Events
     private void OnEnable()
     {
         var gameEventHandler = FindObjectOfType<GameManager>().GameEventHandler;
         gameEventHandler.OnPoolAnimationsFinished += MovePicker;
+        gameEventHandler.OnPoolAnimationsFinished += ResetIsInStageArea;
     }
 
     private void OnDisable()
     {
         var gameEventHandler = FindObjectOfType<GameManager>().GameEventHandler;
         gameEventHandler.OnPoolAnimationsFinished -= MovePicker;
+        gameEventHandler.OnPoolAnimationsFinished -= ResetIsInStageArea;
     }
     #endregion
 }

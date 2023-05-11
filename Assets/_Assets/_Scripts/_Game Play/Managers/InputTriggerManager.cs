@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputTriggerManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class InputTriggerManager : MonoBehaviour
 
     private void Update()
     {
+        // Check if the pointer is over a UI element
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             gameEventHandler.TriggerLevelStarted();
@@ -18,4 +22,5 @@ public class InputTriggerManager : MonoBehaviour
 
         // Add other input handling and event triggers here
     }
+
 }
