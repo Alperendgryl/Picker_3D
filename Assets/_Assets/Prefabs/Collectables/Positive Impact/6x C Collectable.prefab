@@ -126,6 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &2993760493511443427
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &4956927498573661423
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,6 +384,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &4956927499305017780
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,6 +513,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &4956927500341183148
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,6 +642,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &5925788387959368602
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,6 +771,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &9055665948141382300
 GameObject:
   m_ObjectHideFlags: 0

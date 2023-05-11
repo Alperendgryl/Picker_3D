@@ -7,6 +7,9 @@ public class CollectableObjects : MonoBehaviour
     private Vector3 initialPos;
     private Rigidbody rb;
 
+    public bool isPickedUp;
+    public bool toBeDestroyed;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -36,14 +39,13 @@ public class CollectableObjects : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pool"))
         {
+            toBeDestroyed = true;
             StartCoroutine(DestroyCollectable());
         }
     }
 
     private IEnumerator DestroyCollectable()
     {
-        yield return new WaitForSeconds(1.5f);
-
         GameObject particleEffectInstance = Instantiate(particleEffectPrefab, transform.position, Quaternion.identity);
         DisableObjectComponents();
 

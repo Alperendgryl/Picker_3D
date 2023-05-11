@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
     private GUIManager guiManager;
     private PickerController pickerController;
     private GameEventHandler gameEventHandler;
+    private LevelInitializer levelsInitializers;
     public GameEventHandler GameEventHandler
     {
         get
@@ -17,50 +18,90 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
         }
     }
 
+    public static GameManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            gameEventHandler = new GameEventHandler();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
-        InitializeHandlers();
+        Initializer();
         SubscribeEvents();
     }
 
-    private void InitializeHandlers()
+    private void Initializer()
     {
         guiManager = FindObjectOfType<GUIManager>();
         pickerController = FindObjectOfType<PickerController>();
+        levelsInitializers = FindObjectOfType<LevelInitializer>();
+        guiManager.UpdateLevelIndicator();
     }
 
     public void StartLevel()
     {
         pickerController.MovePicker();
-        guiManager.StartLevelAnim();
+        guiManager.HideButtonsAnim(1.25f);
     }
 
-    public void EndLevel()
+    public void WinLevel() //0 = Win, 1 = Fail, 2 = Level Panel (Indicators)
     {
         pickerController.StopPicker();
+
+        guiManager.PanelController(0, true); // Win Panel Active
+    }
+
+    public void FailLevel() //0 = Win, 1 = Fail, 2 = Level Panel (Indicators)
+    {
+        pickerController.StopPicker();
+
+        guiManager.PanelController(1, true); // Fail Panel Active
+    }
+
+    public void NextLevel()
+    {
+        levelsInitializers.LoadNextLevel();
+
+        guiManager.PanelController(2, true); // Level Indicators Active
+
+        pickerController.RestartPickerPos();
+
+        guiManager.UpdateLevelIndicator();
+
+        guiManager.ShowButtonsAnim(1.25f);
     }
 
     public void RestartLevel()
     {
-        pickerController.RestartPickerPos();
-    }
+        levelsInitializers.LoadLevelAgain();
 
-    public void WinLevel()
-    {
-        pickerController.RestartPickerPos();
-    }
+        guiManager.PanelController(2, true); // Level Indicators Active
 
-    public void FailLevel()
-    {
         pickerController.RestartPickerPos();
+
+        guiManager.ShowButtonsAnim(1.25f);
     }
 
     private void SubscribeEvents()
     {
         gameEventHandler.OnLevelStarted += StartLevel;
-        gameEventHandler.OnLevelEnd += EndLevel;
-        gameEventHandler.OnLevelRestart += RestartLevel;
         gameEventHandler.OnLevelWin += WinLevel;
         gameEventHandler.OnLevelFailed += FailLevel;
+    }
+
+    private void OnDestroy()
+    {
+        gameEventHandler.OnLevelStarted -= StartLevel;
+        gameEventHandler.OnLevelWin -= WinLevel;
+        gameEventHandler.OnLevelFailed -= FailLevel;
     }
 }

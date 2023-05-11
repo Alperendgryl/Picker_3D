@@ -8,7 +8,7 @@ public class LevelDesignEditor : EditorWindow
     private GameObject prefab;
     private GameObject instance;
 
-    [MenuItem("Window/Level Editor Tool")]
+    [MenuItem("Custom Tools/Level Editor Tool")]
     public static void ShowWindow()
     {
         GetWindow<LevelDesignEditor>("Level Editor Tool");

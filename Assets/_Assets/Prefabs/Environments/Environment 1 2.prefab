@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 2374784896572886373}
   m_Layer: 0
   m_Name: Environment 1 2
-  m_TagString: Untagged
+  m_TagString: Plane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

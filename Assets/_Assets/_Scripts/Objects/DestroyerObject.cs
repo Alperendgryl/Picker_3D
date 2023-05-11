@@ -4,21 +4,30 @@ using UnityEngine;
 public class DestroyerObject : MonoBehaviour
 {
     [SerializeField] private GameObject particleEffectPrefab;
+    private AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+    }
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Picker")) return;
-        if (other.collider == null) return;
+        if (other.gameObject.CompareTag("Collectable"))
+        {
+            Vector3 contactPoint = other.contacts[0].point;
+            GameObject particleEffectInstance = Instantiate(particleEffectPrefab, contactPoint, Quaternion.identity);
 
-        Vector3 contactPoint = other.contacts[0].point;
-        GameObject particleEffectInstance = Instantiate(particleEffectPrefab, contactPoint, Quaternion.identity);
+            ParticleSystem particleSystem = particleEffectInstance.GetComponent<ParticleSystem>();
+            particleSystem.Play();
 
-        StartCoroutine(DestroyObjectsAfterDelay(other.gameObject, gameObject, particleEffectInstance));
+            audioManager.PlayDestroyerSFX();
+
+            StartCoroutine(DestroyObjectsAfterDelay(other.gameObject, gameObject, particleEffectInstance, particleSystem.main.duration / 2));
+        }
     }
 
-    private IEnumerator DestroyObjectsAfterDelay(GameObject otherObject, GameObject destroyerObject, GameObject particleEffectInstance)
+    private IEnumerator DestroyObjectsAfterDelay(GameObject otherObject, GameObject destroyerObject, GameObject particleEffectInstance, float delay)
     {
-        float delay = 1.5f;
         yield return new WaitForSeconds(delay);
 
         Destroy(otherObject);

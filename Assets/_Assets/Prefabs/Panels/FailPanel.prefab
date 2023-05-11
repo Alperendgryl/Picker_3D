@@ -191,7 +191,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 250}
-  m_SizeDelta: {x: 600, y: 300}
+  m_SizeDelta: {x: 508, y: 292}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &5487448537979310397
 CanvasRenderer:
@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 5487448538868969210}
   m_Layer: 5
   m_Name: FailPanel
-  m_TagString: Untagged
+  m_TagString: LosePanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -479,7 +479,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
+  m_AnchoredPosition: {x: 0, y: -250}
   m_SizeDelta: {x: 1080, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5487448539415949489
@@ -512,8 +512,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Level Failed
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 91f83b825ad745f468af6f0c5217be35, type: 2}
-  m_sharedMaterial: {fileID: 2524076245017955669, guid: 91f83b825ad745f468af6f0c5217be35, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: eb77505a09ec6a744b1b776822a00417, type: 2}
+  m_sharedMaterial: {fileID: 2524076245017955669, guid: eb77505a09ec6a744b1b776822a00417, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

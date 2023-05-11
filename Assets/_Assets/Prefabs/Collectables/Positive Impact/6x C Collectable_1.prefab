@@ -126,6 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &1854067904901524664
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,6 +291,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &2367841793322746571
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +420,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &3005074454343787505
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +549,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &3903048542032833982
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +678,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &5592680817023501767
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,3 +807,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0

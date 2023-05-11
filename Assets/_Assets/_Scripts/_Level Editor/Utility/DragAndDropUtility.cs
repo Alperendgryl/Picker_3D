@@ -28,8 +28,14 @@ public class DragAndDropUtility
                 if (Physics.Raycast(positionUtility.GetRayHit(), out RaycastHit hit, Mathf.Infinity))
                 {
                     selectedObject = hit.collider.gameObject;
-                    if (selectedObject.CompareTag("Plane"))
+                    if (selectedObject.CompareTag("Pool") || selectedObject.CompareTag("Plane"))
                     {
+                        PoolObject selectedPoolObject = selectedObject.GetComponent<PoolObject>() ?? selectedObject.transform.parent?.GetComponent<PoolObject>();
+                        if (selectedPoolObject != null)
+                        {
+                            uiManager.SetActivePool(selectedPoolObject);
+                        }
+
                         selectedObject = null;
                         return;
                     }
@@ -40,7 +46,6 @@ public class DragAndDropUtility
                         objectRenderer.material = highlightMaterial;
                     }
 
-                    // Add this block of code
                     PoolObject poolObject = selectedObject.GetComponent<PoolObject>();
                     if (poolObject != null)
                     {
@@ -61,7 +66,8 @@ public class DragAndDropUtility
                     Vector3 newPosition = new Vector3(hit.point.x, Mathf.Max(hit.point.y, 0f), hit.point.z);
                     Vector3 adjustedPosition = positionUtility.AdjustPositionOfObject(tag, newPosition);
 
-                    if (selectedObjectParent != null && selectedObject.CompareTag("Picker"))
+                    if ((selectedObjectParent != null && selectedObject.CompareTag("Picker")) ||
+                        (selectedObjectParent != null && selectedObjectParent.CompareTag("Pool")))
                     {
                         selectedObjectParent.transform.position = adjustedPosition;
                     }

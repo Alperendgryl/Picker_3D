@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5782749098822419554}
   - component: {fileID: 2527719523336494805}
   - component: {fileID: 5459615457819269147}
+  - component: {fileID: 7418603703276974441}
   m_Layer: 0
   m_Name: Cube Collectable (3)
   m_TagString: Collectable
@@ -112,7 +113,22 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
+--- !u!114 &7418603703276974441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301960655429740217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &457207878499730330
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,6 +180,7 @@ GameObject:
   - component: {fileID: 4542825783455093130}
   - component: {fileID: 3164110291249036860}
   - component: {fileID: 5854468159810513833}
+  - component: {fileID: 4705286231101882631}
   m_Layer: 0
   m_Name: Cube Collectable (5)
   m_TagString: Collectable
@@ -263,7 +280,22 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
+--- !u!114 &4705286231101882631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803372730849015639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &1198514972033402583
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,6 +309,7 @@ GameObject:
   - component: {fileID: 8523790874932263766}
   - component: {fileID: 6690470438886409959}
   - component: {fileID: 58234019090542540}
+  - component: {fileID: 8376574829024167546}
   m_Layer: 0
   m_Name: Cube Collectable (7)
   m_TagString: Collectable
@@ -376,7 +409,22 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
+--- !u!114 &8376574829024167546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198514972033402583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &1682450821040142352
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +438,7 @@ GameObject:
   - component: {fileID: 7487785887394879683}
   - component: {fileID: 2103441248847824328}
   - component: {fileID: 8293262704889156636}
+  - component: {fileID: 1713137343280616672}
   m_Layer: 0
   m_Name: Cube Collectable (2)
   m_TagString: Collectable
@@ -489,7 +538,22 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
+--- !u!114 &1713137343280616672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682450821040142352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &2631737649709531393
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +567,7 @@ GameObject:
   - component: {fileID: 1699016052689811948}
   - component: {fileID: 4073274341128288654}
   - component: {fileID: 2916530132859242510}
+  - component: {fileID: 1915751452226757351}
   m_Layer: 0
   m_Name: Cube Collectable (6)
   m_TagString: Collectable
@@ -602,7 +667,22 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
+--- !u!114 &1915751452226757351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2631737649709531393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &3010873175066935964
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,6 +696,7 @@ GameObject:
   - component: {fileID: 2962600763456153310}
   - component: {fileID: 796975205388963446}
   - component: {fileID: 2695042046076548770}
+  - component: {fileID: 7659716780105107977}
   m_Layer: 0
   m_Name: Cube Collectable (4)
   m_TagString: Collectable
@@ -715,7 +796,22 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
+--- !u!114 &7659716780105107977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3010873175066935964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &3740356116307179062
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,6 +825,7 @@ GameObject:
   - component: {fileID: 1325249465881239468}
   - component: {fileID: 2357380836339132169}
   - component: {fileID: 4991075073533044398}
+  - component: {fileID: 2604481614867798339}
   m_Layer: 0
   m_Name: Cube Collectable (8)
   m_TagString: Collectable
@@ -828,7 +925,22 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
+--- !u!114 &2604481614867798339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3740356116307179062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0
 --- !u!1 &4557343050291260905
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,6 +954,7 @@ GameObject:
   - component: {fileID: 3405363940282931539}
   - component: {fileID: 7979438757522882688}
   - component: {fileID: 6706967700311048936}
+  - component: {fileID: 6713341863981681087}
   m_Layer: 0
   m_Name: Cube Collectable (1)
   m_TagString: Collectable
@@ -941,4 +1054,19 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
+--- !u!114 &6713341863981681087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4557343050291260905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7215572c3eb471c43835e091bea5bf50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 4942568753427993279, guid: a037c05a2cf3a3f4a9b28a111f4c7a5b, type: 3}
+  isPickedUp: 0
+  toBeDestroyed: 0

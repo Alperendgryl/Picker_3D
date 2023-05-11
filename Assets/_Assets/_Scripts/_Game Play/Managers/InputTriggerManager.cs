@@ -7,20 +7,16 @@ public class InputTriggerManager : MonoBehaviour
 
     private void Start()
     {
-        gameEventHandler = FindObjectOfType<GameManager>().GameEventHandler;
+        gameEventHandler = GameManager.Instance.GameEventHandler;
     }
 
     private void Update()
     {
-        // Check if the pointer is over a UI element
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
         if (Input.GetMouseButtonDown(0))
         {
             gameEventHandler.TriggerLevelStarted();
         }
-
-        // Add other input handling and event triggers here
     }
-
 }
