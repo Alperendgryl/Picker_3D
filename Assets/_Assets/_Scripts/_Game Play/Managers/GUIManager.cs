@@ -22,6 +22,8 @@ public class GUIManager : MonoBehaviour
     }
     private void Start()
     {
+        UpdateDiamondText();
+
         nextLevelButton.onClick.AddListener(() =>
         {
             GameManager.Instance.NextLevel();
@@ -72,6 +74,12 @@ public class GUIManager : MonoBehaviour
         currentLevel.text = (level + 1).ToString();
         nextLevel.text = (level + 2).ToString();
     }
+
+    public void UpdateDiamondText()
+    {
+        diamondTXT.text = dataHandler.diamond.ToString();
+    }
+
     public void ChangePoolStageColor(int passedPools)
     {
         if (passedPools <= poolStages.Length)

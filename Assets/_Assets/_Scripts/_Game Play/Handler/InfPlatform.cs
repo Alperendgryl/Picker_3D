@@ -3,10 +3,12 @@ using System.Collections.Generic;
 
 public class InfPlatform : MonoBehaviour
 {
-    public GameObject platformPrefab;
-    public GameObject poolPrefab;
-    public int poolSize = 10;
-    public Transform player;
+    private GameObject currentLevel;
+    private GameObject infTrigger;
+    [SerializeField] private GameObject platformPrefab;
+    [SerializeField] private GameObject poolPrefab;
+    [SerializeField] private int poolSize = 25;
+    [SerializeField] private Transform player;
 
     private int lastZPos = 0;
     private int platformCount = 0;
@@ -19,50 +21,34 @@ public class InfPlatform : MonoBehaviour
     {
         platformPool = new List<GameObject>();
         poolPool = new List<GameObject>();
+    }
+
+    private void Start()
+    {
+        infTrigger = GameObject.FindGameObjectWithTag("InfTrigger");
+        currentLevel = GameObject.FindGameObjectWithTag("Level");
+        if (infTrigger == null) Debug.LogError("No GameObject found with InfTrigger tag on Start.");
+        if (currentLevel == null) Debug.LogError("No GameObject found with Level tag on Start.");
 
         for (int i = 0; i < poolSize; i++)
         {
-            GameObject newPlatform = Instantiate(platformPrefab);
+            GameObject newPlatform = Instantiate(platformPrefab, currentLevel.transform);
             newPlatform.SetActive(false);
             platformPool.Add(newPlatform);
 
-            GameObject newPool = Instantiate(poolPrefab);
+            GameObject newPool = Instantiate(poolPrefab, currentLevel.transform);
             newPool.SetActive(false);
             poolPool.Add(newPool);
-        }
-
-        // Find the Level GameObject and its child with the LevelEnd tag
-        GameObject level = GameObject.FindWithTag("Level");
-        if (level != null)
-        {
-            Transform levelEnd = level.transform.Find("LevelEnd");
-            if (levelEnd != null)
-            {
-                lastPlatformPos = levelEnd.position;
-                lastZPos = Mathf.FloorToInt(lastPlatformPos.z);
-            }
-            else
-            {
-                Debug.LogError("No child GameObject found with LevelEnd tag.");
-            }
-        }
-        else
-        {
-            Debug.LogError("No GameObject found with Level tag.");
         }
     }
 
     private void Update()
     {
-        if (player == null)
-        {
-            Debug.LogError("Player not assigned in LevelManager script.");
-            return;
-        }
+        if (player == null || infTrigger == null) return;
 
         int currentZPos = Mathf.FloorToInt(player.position.z);
 
-        if (currentZPos >= 120 && currentZPos >= lastZPos + 10)
+        if (currentZPos >= lastZPos + 10)
         {
             lastZPos = currentZPos;
 
@@ -78,13 +64,17 @@ public class InfPlatform : MonoBehaviour
                 platformCount++;
             }
 
-            Vector3 newPos = lastPlatformPos + new Vector3(0, 0, 10);
+            float platformOffset = infTrigger.transform.position.z - 10f;
+            Vector3 newPos = new Vector3(0, 0, Mathf.Round(player.position.z + platformOffset));
             newObj.transform.position = newPos;
-            newObj.SetActive(true);
 
+            newObj.transform.SetParent(currentLevel.transform, false);
+
+            newObj.SetActive(true);
             lastPlatformPos = newPos;
         }
     }
+
 
     private GameObject GetPooledObject(List<GameObject> pool)
     {
@@ -96,8 +86,15 @@ public class InfPlatform : MonoBehaviour
             }
         }
 
-        GameObject newObj = Instantiate(pool[0]);
+        GameObject newObj = Instantiate(pool[0], currentLevel.transform);
         pool.Add(newObj);
         return newObj;
+    }
+
+    public void SetLevel(GameObject newLevel)
+    {
+        currentLevel = newLevel;
+        lastPlatformPos = infTrigger.transform.position;
+        lastZPos = Mathf.FloorToInt(lastPlatformPos.z);
     }
 }

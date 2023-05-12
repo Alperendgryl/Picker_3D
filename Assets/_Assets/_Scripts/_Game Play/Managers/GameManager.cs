@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
     private PickerController pickerController;
     private GameEventHandler gameEventHandler;
     private LevelInitializer levelsInitializers;
+    private PoolManager poolManager;
     public GameEventHandler GameEventHandler
     {
         get
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
         guiManager = FindObjectOfType<GUIManager>();
         pickerController = FindObjectOfType<PickerController>();
         levelsInitializers = FindObjectOfType<LevelInitializer>();
+        poolManager = FindObjectOfType<PoolManager>();
         guiManager.UpdateLevelIndicator();
     }
 
@@ -78,6 +80,10 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
         guiManager.UpdateLevelIndicator();
 
         guiManager.ShowButtonsAnim(1.25f);
+
+        poolManager.ResetPoolPassed();
+
+        guiManager.ChangePoolStageColor(0);
     }
 
     public void RestartLevel()
@@ -89,6 +95,10 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
         pickerController.RestartPickerPos();
 
         guiManager.ShowButtonsAnim(1.25f);
+
+        poolManager.ResetPoolPassed();
+
+        guiManager.ChangePoolStageColor(0);
     }
 
     private void SubscribeEvents()

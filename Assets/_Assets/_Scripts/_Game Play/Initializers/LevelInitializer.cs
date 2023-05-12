@@ -13,11 +13,10 @@ public class LevelInitializer : MonoBehaviour
     private void Awake()
     {
         dataHandler = LevelDataHandler.Instance;
+        dataHandler.LoadGameData();
     }
     private void Start()
     {
-        dataHandler.LoadGameData();
-
         playerLevel = dataHandler.playerLevel;
         levelArrayIndex = dataHandler.levelArrayIndex;
 

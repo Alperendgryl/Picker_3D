@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7521475229498646262}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -46,11 +46,6 @@ MonoBehaviour:
   diamondTXT: {fileID: 0}
   currentLevel: {fileID: 0}
   nextLevel: {fileID: 0}
-  uiElements:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   InLevelPanel: {fileID: 0}
   WinPanel: {fileID: 0}
   FailPanel: {fileID: 0}
@@ -58,4 +53,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  StartScreenUIElements:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  nextLevelButton: {fileID: 0}
+  replayLevelButton: {fileID: 0}
   passedPoolColor: {r: 0, g: 1, b: 0, a: 1}

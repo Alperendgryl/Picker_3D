@@ -18,6 +18,7 @@ TagManager:
   - WinPanel
   - LosePanel
   - PoolGate
+  - InfTrigger
   layers:
   - Default
   - TransparentFX

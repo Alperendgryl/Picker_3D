@@ -7,7 +7,7 @@ public class LevelDataHandler : MonoBehaviour
 
     public int playerLevel;
     public int levelArrayIndex;
-
+    public int diamond;
     private void Awake()
     {
         if (Instance == null)
@@ -20,13 +20,17 @@ public class LevelDataHandler : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    public void UpdateDiamond(int newDiamond)
+    {
+        diamond += newDiamond;
+        SaveGameData();
+    }
     public void SaveGameData()
     {
         GameLevelData data = new GameLevelData();
         data.playerLevel = playerLevel;
         data.levelArrayIndex = levelArrayIndex;
-
+        data.diamond = diamond;
         string json = JsonUtility.ToJson(data);
 
         File.WriteAllText(Application.persistentDataPath + "/playerData.json", json);
@@ -42,10 +46,11 @@ public class LevelDataHandler : MonoBehaviour
 
             playerLevel = data.playerLevel;
             levelArrayIndex = data.levelArrayIndex;
+            diamond = data.diamond;
         }
         else
         {
-            // Handle error - there is no saved game data
+            Debug.LogWarning("There is no saved game data.");
         }
     }
 }

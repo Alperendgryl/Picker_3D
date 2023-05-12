@@ -25,8 +25,7 @@ public class PoolObject : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
         guiManager = FindObjectOfType<GUIManager>();
         poolInside = transform.Find("Pool Inside").gameObject;
-        //poolGate = transform.Find("Pool Gate").gameObject;
-        poolGate = GameObject.FindGameObjectWithTag("PoolGate");
+        poolGate = transform.Find("Pool Gate").gameObject;
     }
 
     private void Start()

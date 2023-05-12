@@ -17,4 +17,9 @@ public class PoolManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void ResetPoolPassed()
+    {
+        poolPassed = 0;
+    }
 }
