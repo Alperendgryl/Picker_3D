@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ public class LevelDataHandler : MonoBehaviour
         data.playerLevel = playerLevel;
         data.levelArrayIndex = levelArrayIndex;
         data.diamond = diamond;
+        data.unlockedPickers = new List<int>(Store.Instance.UnlockedPickers.Keys);
         string json = JsonUtility.ToJson(data);
 
         File.WriteAllText(Application.persistentDataPath + "/playerData.json", json);
@@ -47,6 +49,13 @@ public class LevelDataHandler : MonoBehaviour
             playerLevel = data.playerLevel;
             levelArrayIndex = data.levelArrayIndex;
             diamond = data.diamond;
+            if (data.unlockedPickers != null)
+            {
+                foreach (int pickerID in data.unlockedPickers)
+                {
+                    Store.Instance.UnlockPicker(pickerID);
+                }
+            }
         }
         else
         {

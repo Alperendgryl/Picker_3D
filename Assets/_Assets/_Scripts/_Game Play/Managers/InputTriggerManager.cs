@@ -12,11 +12,20 @@ public class InputTriggerManager : MonoBehaviour
 
     private void Update()
     {
-        if (EventSystem.current.IsPointerOverGameObject()) return;
-
-        if (Input.GetMouseButtonDown(0))
+        if (Input.touchCount > 0)
         {
-            gameEventHandler.TriggerLevelStarted();
+            Touch touch = Input.GetTouch(0);
+            // Check if touch began over a UI GameObject
+            if (touch.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject(touch.fingerId)) return;
+
+            if (touch.phase == TouchPhase.Began) gameEventHandler.TriggerLevelStarted();
+
+            if (touch.phase == TouchPhase.Moved)
+            {
+                Vector2 touchDeltaPosition = touch.deltaPosition;
+                transform.Translate(-touchDeltaPosition.x * Time.deltaTime, 0, -touchDeltaPosition.y * Time.deltaTime);
+            }
         }
     }
+
 }

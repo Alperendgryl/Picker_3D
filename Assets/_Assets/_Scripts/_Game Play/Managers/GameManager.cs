@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
 
         poolManager.ResetPoolPassed();
 
-        guiManager.ChangePoolStageColor(0);
+        guiManager.SetPoolStageColorsToInitials();
     }
 
     public void RestartLevel()
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour, IGameLevelHandler
 
         poolManager.ResetPoolPassed();
 
-        guiManager.ChangePoolStageColor(0);
+        guiManager.SetPoolStageColorsToInitials();
     }
 
     private void SubscribeEvents()

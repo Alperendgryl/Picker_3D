@@ -5,30 +5,33 @@ using UnityEngine;
 
 public class PickerController : MonoBehaviour, IPicker
 {
-    private AudioManager audioManager;
-    private GameObject infTrigger;
+    [Header("Picker Speed Settings")]
     [SerializeField] private float moveSpeedX = 5f;
     [SerializeField] private float moveSpeedZ = 5f;
     [SerializeField] private float minX = -3.3f;
     [SerializeField] private float maxX = 3.3f;
 
+    private GameObject infTrigger;
     private Rigidbody pickerRB;
-    private List<Rigidbody> collectedObjects = new List<Rigidbody>();
     private Vector3 pickerInitialPos;
-
     private bool PickerCanMove;
     private float forceValue = .25f;
-
     private Coroutine bonusCoroutine;
+    private int tempCollectableCount = 0;
+
+    [Header("Dependencies")]
+    private AudioManager audioManager;
     private LevelDataHandler dataHandler;
     private GUIManager guiManager;
 
-    private int tempCollectableCount = 0;
+    private List<Rigidbody> collectedObjects = new List<Rigidbody>();
+
     private void Awake()
     {
         dataHandler = LevelDataHandler.Instance;
         audioManager = FindObjectOfType<AudioManager>();
     }
+
     private void Start()
     {
         guiManager = FindObjectOfType<GUIManager>();
@@ -45,25 +48,32 @@ public class PickerController : MonoBehaviour, IPicker
             Movement();
         }
     }
+    #region MouseMovement
+    //public void MouseMovement()
+    //{
+    //    Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal") * moveSpeedX, 0, moveSpeedZ) * Time.fixedDeltaTime;
+    //    Vector3 targetPosition = pickerRB.position + moveDirection;
+    //    targetPosition.x = Mathf.Clamp(targetPosition.x, minX, maxX);
 
+    //    pickerRB.MovePosition(targetPosition);
+    //}
+    #endregion 
     public void Movement()
     {
-        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal") * moveSpeedX, 0, moveSpeedZ) * Time.fixedDeltaTime;
-        Vector3 targetPosition = pickerRB.position + moveDirection;
-        targetPosition.x = Mathf.Clamp(targetPosition.x, minX, maxX);
-
+        float moveX = 0;
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            moveX = touch.deltaPosition.x * moveSpeedX * Time.deltaTime;
+        }
+        float targetX = Mathf.Clamp(pickerRB.position.x + moveX, minX, maxX);
+        Vector3 targetPosition = new Vector3(targetX, pickerRB.position.y, pickerRB.position.z + moveSpeedZ * Time.deltaTime);
         pickerRB.MovePosition(targetPosition);
     }
 
-    public void MovePicker()
-    {
-        PickerCanMove = true;
-    }
+    public void MovePicker() => PickerCanMove = true;
 
-    public void StopPicker()
-    {
-        PickerCanMove = false;
-    }
+    public void StopPicker() => PickerCanMove = false;
 
     public void RestartPickerPos()
     {
@@ -71,14 +81,13 @@ public class PickerController : MonoBehaviour, IPicker
         tempCollectableCount = 0;
     }
 
-    public void ChangePickerColor()
+    public void ChangePickerColor(Color color)
     {
-        for (int i = 0; i < transform.childCount; i++)
+        foreach (Transform child in transform)
         {
-            Renderer childRenderer = transform.GetChild(i).GetComponent<Renderer>();
-            if (childRenderer != null)
+            if (child.TryGetComponent<Renderer>(out Renderer childRenderer))
             {
-                childRenderer.material.color = FindObjectOfType<Store>().GetPickerColor();
+                childRenderer.material.color = color;
             }
         }
     }
@@ -87,38 +96,15 @@ public class PickerController : MonoBehaviour, IPicker
     {
         if (other.gameObject.CompareTag("StageArea"))
         {
+            StartCoroutine(CheckIfAnyCollected());
             StopPicker();
-
-            foreach (Rigidbody rb in collectedObjects)
-            {
-                if (rb != null)
-                {
-                    CollectableObjects collectable = rb.GetComponent<CollectableObjects>();
-                    if (collectable != null)
-                    {
-                        rb.AddForce(new Vector3(0, 0, 1) * forceValue, ForceMode.Impulse);
-                    }
-                }
-            }
-            collectedObjects.Clear();
+            ClearCollectedObjects();
         }
 
         if (other.gameObject.CompareTag("Collectable"))
         {
-            CollectableObjects collectable = other.gameObject.GetComponent<CollectableObjects>();
-            if (collectable == null) Debug.Log("CollectableObjects component is null");
-            else
-            {
-                if (!collectable.isPickedUp)
-                {
-                    collectable.isPickedUp = true;
-                    tempCollectableCount++;
-                    collectedObjects.Add(other.gameObject.GetComponent<Rigidbody>());
-                    audioManager.PlayCollectableSFX();
-                }
-            }
+            HandleCollectable(other.gameObject);
         }
-
 
         if (other.gameObject.CompareTag("LevelEnd"))
         {
@@ -130,32 +116,39 @@ public class PickerController : MonoBehaviour, IPicker
         }
     }
 
-    float waitForSec = 2f;
+    private void ClearCollectedObjects()
+    {
+        foreach (Rigidbody rb in collectedObjects)
+        {
+            if (rb != null && rb.TryGetComponent<CollectableObjects>(out CollectableObjects collectable))
+            {
+                rb.AddForce(new Vector3(0, 0, 1) * forceValue, ForceMode.Impulse);
+            }
+        }
+        collectedObjects.Clear();
+    }
+
+    private void HandleCollectable(GameObject collectableGameObject)
+    {
+        if (collectableGameObject.TryGetComponent<CollectableObjects>(out CollectableObjects collectable) && !collectable.isPickedUp)
+        {
+            collectable.isPickedUp = true;
+            tempCollectableCount++;
+            collectedObjects.Add(collectableGameObject.GetComponent<Rigidbody>());
+            audioManager.PlayCollectableSFX();
+        }
+    }
     private IEnumerator BonusReached(GameObject levelEndObject)
     {
         StopPicker();
         Debug.Log("Picker stopped.");
-        yield return new WaitForSeconds(waitForSec);
+        yield return new WaitForSeconds(2f);
 
         Vector3 targetPos = transform.position + new Vector3(0, 0, tempCollectableCount / 2);
         gameObject.transform.DOMove(targetPos, 2f);
 
-        yield return new WaitForSeconds(waitForSec);
-        LevelEndBonusObject bonus = null; // Search for grandchildren with the BonusObject tag
-        foreach (Transform child in levelEndObject.transform)
-        {
-            foreach (Transform grandchild in child)
-            {
-                if (grandchild.CompareTag("BonusObject"))
-                {
-                    bonus = grandchild.GetComponent<LevelEndBonusObject>();
-                    if (bonus != null)
-                        break;
-                }
-            }
-            if (bonus != null)
-                break;
-        }
+        yield return new WaitForSeconds(2f);
+        LevelEndBonusObject bonus = FindBonusObject(levelEndObject);
 
         if (bonus == null)
         {
@@ -180,4 +173,23 @@ public class PickerController : MonoBehaviour, IPicker
         Debug.Log("Level win triggered.");
     }
 
+    private LevelEndBonusObject FindBonusObject(GameObject levelEndObject)
+    {
+        foreach (Transform child in levelEndObject.transform)
+        {
+            foreach (Transform grandchild in child)
+            {
+                if (grandchild.CompareTag("BonusObject") && grandchild.TryGetComponent<LevelEndBonusObject>(out LevelEndBonusObject bonus))
+                {
+                    return bonus;
+                }
+            }
+        }
+        return null;
+    }
+    private IEnumerator CheckIfAnyCollected()
+    {
+        yield return new WaitForSeconds(2f);
+        if (tempCollectableCount == 0) GameManager.Instance.GameEventHandler.TriggerLevelFailed();
+    }
 }

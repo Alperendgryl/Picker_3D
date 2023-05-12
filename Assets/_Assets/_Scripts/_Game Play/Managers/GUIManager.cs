@@ -38,34 +38,25 @@ public class GUIManager : MonoBehaviour
 
     }
 
-    public void HideButtonsAnim(float animationDuration)
+    public void HideButtonsAnim(float animDuration)
     {
-        // Move element at index 0 from Y 150 to Y -150
-        StartScreenUIElements[0].GetComponent<RectTransform>().DOAnchorPos(new Vector2(0, -150), animationDuration);
-
-        // Move element at index 1 from X 25 to X -250
-        StartScreenUIElements[1].GetComponent<RectTransform>().DOAnchorPos(new Vector2(-250, 0), animationDuration);
-
-        // Move element at index 2 from X -25 to X 250
-        StartScreenUIElements[2].GetComponent<RectTransform>().DOAnchorPos(new Vector2(250, 0), animationDuration);
-
-        // Move element at index 3 from X -25, Y -250 to X 250, Y -250
-        StartScreenUIElements[3].GetComponent<RectTransform>().DOAnchorPos(new Vector2(250, -250), animationDuration);
+        StartTheAnim(0, 0, -150, animDuration);
+        StartTheAnim(1, -250, 0, animDuration);
+        StartTheAnim(2, 250, 0, animDuration);
+        StartTheAnim(3, 250, -250, animDuration);
     }
 
-    public void ShowButtonsAnim(float animationDuration)
+    public void ShowButtonsAnim(float animDuration)
     {
-        // Move element at index 0 from Y 150 to Y -150
-        StartScreenUIElements[0].GetComponent<RectTransform>().DOAnchorPos(new Vector2(0, 150), animationDuration);
+        StartTheAnim(0, 0, 150, animDuration);
+        StartTheAnim(1, 25, 0, animDuration);
+        StartTheAnim(2, -25, 0, animDuration);
+        StartTheAnim(3, -25, -250, animDuration);
+    }
 
-        // Move element at index 1 from X 25 to X -250
-        StartScreenUIElements[1].GetComponent<RectTransform>().DOAnchorPos(new Vector2(25, 0), animationDuration);
-
-        // Move element at index 2 from X -25 to X 250
-        StartScreenUIElements[2].GetComponent<RectTransform>().DOAnchorPos(new Vector2(-25, 0), animationDuration);
-
-        // Move element at index 3 from X -25, Y -250 to X 250, Y -250
-        StartScreenUIElements[3].GetComponent<RectTransform>().DOAnchorPos(new Vector2(-25, -250), animationDuration);
+    private void StartTheAnim(int elementID, float xPos, float yPos, float animationDuration)
+    {
+        StartScreenUIElements[elementID].GetComponent<RectTransform>().DOAnchorPos(new Vector2(xPos, yPos), animationDuration);
     }
 
     public void UpdateLevelIndicator()
@@ -90,6 +81,14 @@ public class GUIManager : MonoBehaviour
                 poolStageImage.color = passedPoolColor;
             }
         }
+    }
+    public void SetPoolStageColorsToInitials()
+    {
+        for (int i = 0; i < poolStages.Length; i++)
+        {
+            poolStages[i].GetComponent<Image>().color = Color.white;
+        }
+
     }
 
     public void PanelController(int PanelID, bool state)
